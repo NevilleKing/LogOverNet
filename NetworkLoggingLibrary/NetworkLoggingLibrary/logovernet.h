@@ -5,5 +5,6 @@
 #define __LOGOVERNET__
 
 #include "Severity.h"
+#include "Logger.h"
 
 #endif
