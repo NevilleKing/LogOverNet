@@ -1,14 +1,28 @@
 // main.cpp
 // Entry point for the application
 
+#include "ServerHandler.h"
+
+void ServerLoop();
+
+ServerHandler* server;
+
 int main(int argc, char *argv[])
 {
+	server = new ServerHandler();
 
-	// main loop
-	while (true)
-	{
-
-	}
+	ServerLoop();
 
 	return 0;
+}
+
+// main loop
+void ServerLoop()
+{
+	while (true)
+	{
+		// call the update function every loop
+		// this checks to see if there is new clients / messages waiting
+		server->update();
+	}
 }
