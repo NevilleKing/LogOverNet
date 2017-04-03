@@ -5,6 +5,7 @@
 
 #include <string>
 #include "Severity.h"
+#include "ClientNetwork.h"
 
 namespace logovernet
 {
@@ -14,7 +15,7 @@ namespace logovernet
 	public:
 		// constructors
 		Logger(std::string ipAddress);
-		~Logger() {};
+		~Logger();
 		Logger(const Logger& obj) {};
 
 		// send a message to the ip address with a specific
@@ -23,5 +24,8 @@ namespace logovernet
 
 	private:
 		std::string _ipAddress;
+		
+		// Client Networking object which calls the Winsock API
+		ClientNetwork* network;
 	};
 }
