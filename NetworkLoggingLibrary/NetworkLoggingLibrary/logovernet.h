@@ -1,10 +1,7 @@
 // logovernet.h
 // Main header file to include in an application to send log messages over the network
 
-#ifndef __LOGOVERNET__
-#define __LOGOVERNET__
+#pragma once
 
 #include "Severity.h"
 #include "Logger.h"
-
-#endif

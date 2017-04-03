@@ -1,8 +1,7 @@
 // Logger.h
 // Defines functions and macros to be accessed from the code to be debugged
 
-#ifndef __LOGOVERNET_LOGGER__
-#define __LOGOVERNET_LOGGER__
+#pragma once
 
 #include <string>
 #include "Severity.h"
@@ -26,5 +25,3 @@ namespace logovernet
 		std::string _ipAddress;
 	};
 }
-
-#endif
