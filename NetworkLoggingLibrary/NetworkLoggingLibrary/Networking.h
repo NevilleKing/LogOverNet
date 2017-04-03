@@ -12,6 +12,6 @@ namespace logovernet
 	{
 	public:
 		// function to send messages using a specific socket
-		static int send(SOCKET socket, char* msg, int msgSize);
+		static int sendMsg(SOCKET socket, char* msg, int msgSize);
 	};
 }

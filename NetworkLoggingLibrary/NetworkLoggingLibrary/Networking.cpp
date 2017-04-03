@@ -2,8 +2,8 @@
 
 namespace logovernet
 {
-	int Network::send(SOCKET socket, char * msg, int msgSize)
+	int Network::sendMsg(SOCKET socket, char * msg, int msgSize)
 	{
-		return 0;
+		return send(socket, msg, msgSize, 0);
 	}
 }
