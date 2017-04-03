@@ -4,7 +4,7 @@
 #ifndef __LOGOVERNET_LOGGER__
 #define __LOGOVERNET_LOGGER__
 
-#include <iostream>
+#include <string>
 #include "Severity.h"
 
 namespace logovernet
