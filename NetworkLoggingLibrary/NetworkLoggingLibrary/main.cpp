@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
 	// setup logger with ip address
 	Logger logger = Logger("");
-	logger.sendMessage("testString", LOG_SEVERITY::ERROR);
+	logger.sendMessage("testString", LOG_SEVERITY::LON_ERROR);
 
 	system("pause");
 
