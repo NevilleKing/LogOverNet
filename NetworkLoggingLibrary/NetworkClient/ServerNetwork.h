@@ -9,6 +9,9 @@
 #include <iostream>
 #include <map>
 
+#include "NetworkServices.h"
+#include "Packet.h"
+
 #pragma comment (lib, "Ws2_32.lib")
 
 #define DEFAULT_BUFLEN 512
@@ -30,6 +33,9 @@ public:
 
 	// accept new connection
 	bool acceptNewClient(unsigned int& id);
+
+	// receive incoming data
+	int receiveData(unsigned int client_id, char* recvbuf);
 
 	// table to keep track of each client
 	std::map<unsigned int, SOCKET> sessions;

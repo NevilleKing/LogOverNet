@@ -143,10 +143,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetworkServices.cpp" />
     <ClCompile Include="ServerHandler.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NetworkServices.h" />
+    <ClInclude Include="Packet.h" />
     <ClInclude Include="ServerHandler.h" />
     <ClInclude Include="ServerNetwork.h" />
   </ItemGroup>

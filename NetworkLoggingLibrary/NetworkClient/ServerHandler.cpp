@@ -22,4 +22,36 @@ void ServerHandler::update()
 
 		client_id++;
 	}
+
+	receiveFromClients();
+}
+
+void ServerHandler::receiveFromClients()
+{
+	Packet packet;
+
+	// go through all clients
+	std::map<unsigned int, SOCKET>::iterator iter;
+
+	for (iter = network->sessions.begin(); iter != network->sessions.end(); iter++)
+	{
+		// get data for that client
+		int data_length = network->receiveData(iter->first, network_data);
+
+		if (data_length <= 0)
+		{
+			// nothing received
+			continue;
+		}
+
+		int i = 0;
+		while (i < (unsigned int)data_length)
+		{
+			packet.deserialize(&(network_data[i]));
+			i += sizeof(Packet);
+
+			std::cout << "Message received from #" << iter->first <<
+				": " << packet.packet_msg << std::endl;
+		}
+	}
 }

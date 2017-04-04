@@ -4,6 +4,7 @@
 #pragma once
 
 #include "ServerNetwork.h"
+#include "Packet.h"
 
 class ServerHandler
 {
@@ -14,11 +15,17 @@ public:
 	// update function
 	void update();
 
+	// receive messages from clients
+	void receiveFromClients();
+
 private:
 	// id for the clients connecting
 	static unsigned int client_id;
 
 	// Server Object
 	ServerNetwork* network;
+
+	// data buffer
+	char network_data[MAX_PACKET_SIZE];
 };
 

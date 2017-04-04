@@ -103,3 +103,20 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 
 	return false;
 }
+
+int ServerNetwork::receiveData(unsigned int client_id, char * recvbuf)
+{
+	if (sessions.find(client_id) != sessions.end())
+	{
+		SOCKET currentSocket = sessions[client_id];
+		iResult = NetworkServices::receiveMessage(currentSocket, recvbuf,
+			MAX_PACKET_SIZE);
+		if (iResult == 0)
+		{
+			std::cout << "Connection Closed." << std::endl;
+			closesocket(currentSocket);
+		}
+		return iResult;
+	}
+	return 0;
+}
