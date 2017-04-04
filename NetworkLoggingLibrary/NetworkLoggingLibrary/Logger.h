@@ -6,6 +6,8 @@
 #include <string>
 #include "Severity.h"
 #include "ClientNetwork.h"
+#include "Packet.h"
+#include "Networking.h"
 
 namespace logovernet
 {

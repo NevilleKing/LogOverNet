@@ -120,6 +120,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="logovernet.h" />
     <ClInclude Include="Networking.h" />
+    <ClInclude Include="Packet.h" />
     <ClInclude Include="Severity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
