@@ -38,6 +38,8 @@ void ServerHandler::receiveFromClients()
 
 		if (data_length <= 0)
 		{
+			if (data_length == 0) // gracefully closed
+				_sessionsToBeRemoved.push_back(iter->first);
 			// nothing received
 			continue;
 		}
@@ -45,13 +47,24 @@ void ServerHandler::receiveFromClients()
 		//int i = 0;
 		//while (i < (unsigned int)data_length)
 		//{
-			
-			char* pos_char = strchr(network_data, '\0');
-			int pos = (int)(pos_char - network_data);
-			std::string outputString(network_data, 0, pos);
 
-			std::cout << "Message received from #" << iter->first <<
-				": " << outputString << std::endl;
+		char* pos_char = strchr(network_data, '\0');
+		int pos = (int)(pos_char - network_data);
+		std::string outputString(network_data, 0, pos);
+
+		std::cout << "Message received from #" << iter->first <<
+			": " << outputString << std::endl;
 		//find}
+	}
+
+	// remove closed sessions
+	if (_sessionsToBeRemoved.size() > 0)
+	{
+		std::vector<unsigned int>::iterator iter;
+		for (iter = _sessionsToBeRemoved.begin(); iter != _sessionsToBeRemoved.end(); iter++)
+		{
+			network->closeClientConnection(*iter);
+		}
+		_sessionsToBeRemoved.clear();
 	}
 }

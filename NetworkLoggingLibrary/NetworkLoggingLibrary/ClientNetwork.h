@@ -33,6 +33,6 @@ namespace logovernet
 
 		// constructors
 		ClientNetwork();
-		~ClientNetwork() {};
+		~ClientNetwork();
 	};
 }

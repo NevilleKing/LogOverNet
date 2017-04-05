@@ -91,4 +91,13 @@ namespace logovernet
 		}
 	}
 
+	ClientNetwork::~ClientNetwork()
+	{
+		// shutdown communication in both directions
+		shutdown(ConnectSocket, SD_BOTH);
+		
+		// close the socket
+		closesocket(ConnectSocket);
+	}
+
 }

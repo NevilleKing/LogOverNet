@@ -113,7 +113,7 @@ bool ServerNetwork::closeClientConnection(unsigned int & id)
 		iResult = closesocket(session->second);
 		if (iResult != SOCKET_ERROR)
 		{
-			sessions.erase(id);
+			//sessions.erase(id);
 			std::cout << "Connection closed with client #" << id << std::endl;
 			return true;
 		}
@@ -128,8 +128,6 @@ int ServerNetwork::receiveData(unsigned int client_id, char * recvbuf)
 		SOCKET currentSocket = sessions[client_id];
 		iResult = NetworkServices::receiveMessage(currentSocket, recvbuf,
 			MAX_PACKET_SIZE);
-		if (iResult == 0)
-			closeClientConnection(client_id);
 		return iResult;
 	}
 	return 0;

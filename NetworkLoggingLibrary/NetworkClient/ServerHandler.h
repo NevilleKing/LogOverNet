@@ -5,6 +5,7 @@
 
 #include "ServerNetwork.h"
 #include "Packet.h"
+#include <vector>
 
 class ServerHandler
 {
@@ -27,5 +28,8 @@ private:
 
 	// data buffer
 	char network_data[MAX_PACKET_SIZE];
+
+	// to store sessions to be removed
+	std::vector<unsigned int> _sessionsToBeRemoved;
 };
 
