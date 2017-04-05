@@ -10,7 +10,7 @@
 class ServerHandler
 {
 public:
-	ServerHandler();
+	ServerHandler(char* port);
 	~ServerHandler();
 
 	// update function

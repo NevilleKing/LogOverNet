@@ -9,7 +9,20 @@ ServerHandler* server;
 
 int main(int argc, char *argv[])
 {
-	server = new ServerHandler();
+	char* port;
+	if (argc > 2)
+	{
+		if (argv[1] == "--port")
+		{
+			port = argv[2];
+		}
+	}
+	else
+	{
+		port = DEFAULT_PORT;
+	}
+
+	server = new ServerHandler(port);
 
 	ServerLoop();
 

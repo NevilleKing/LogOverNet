@@ -3,13 +3,13 @@
 // need to define static variables in cpp too
 unsigned int ServerHandler::client_id;
 
-ServerHandler::ServerHandler()
+ServerHandler::ServerHandler(char* port)
 {
 	// init the client id
 	client_id = 0;
 
 	// setup the server network object to listen
-	network = new ServerNetwork();
+	network = new ServerNetwork(port);
 }
 
 void ServerHandler::update()

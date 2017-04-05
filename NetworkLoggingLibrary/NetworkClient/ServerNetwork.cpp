@@ -1,6 +1,6 @@
 #include "ServerNetwork.h"
 
-ServerNetwork::ServerNetwork()
+ServerNetwork::ServerNetwork(char* port_num)
 {
 	// Create WSADATA object
 	WSADATA wsaData;
@@ -29,7 +29,7 @@ ServerNetwork::ServerNetwork()
 
 	// Resolve the server address and port
 	// We don't need an ip address as it's on the local machine
-	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(NULL, port_num, &hints, &result);
 
 	if (iResult != 0)
 	{

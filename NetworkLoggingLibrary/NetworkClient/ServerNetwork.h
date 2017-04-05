@@ -21,7 +21,7 @@ class ServerNetwork
 {
 public:
 	// constructors
-	ServerNetwork();
+	ServerNetwork(char* port_num);
 	~ServerNetwork();
 
 	// Socket to listen for new connections
