@@ -2,6 +2,7 @@
 // Entry point for the application
 
 #include "ServerHandler.h"
+#include <string>
 
 void ServerLoop();
 
@@ -9,17 +10,14 @@ ServerHandler* server;
 
 int main(int argc, char *argv[])
 {
-	char* port;
+	char* port = DEFAULT_PORT;
+
 	if (argc > 2)
 	{
-		if (argv[1] == "--port")
+		if (std::strcmp(argv[1], "--port") == 0)
 		{
 			port = argv[2];
 		}
-	}
-	else
-	{
-		port = DEFAULT_PORT;
 	}
 
 	server = new ServerHandler(port);
