@@ -28,8 +28,6 @@ void ServerHandler::update()
 
 void ServerHandler::receiveFromClients()
 {
-	Packet packet;
-
 	// go through all clients
 	std::map<unsigned int, SOCKET>::iterator iter;
 
@@ -44,14 +42,16 @@ void ServerHandler::receiveFromClients()
 			continue;
 		}
 
-		int i = 0;
-		while (i < (unsigned int)data_length)
-		{
-			packet.deserialize(&(network_data[i]));
-			i += sizeof(Packet);
+		//int i = 0;
+		//while (i < (unsigned int)data_length)
+		//{
+			
+			char* pos_char = strchr(network_data, '\0');
+			int pos = (int)(pos_char - network_data);
+			std::string outputString(network_data, 0, pos);
 
 			std::cout << "Message received from #" << iter->first <<
-				": " << packet.packet_msg << std::endl;
-		}
+				": " << outputString << std::endl;
+		//find}
 	}
 }

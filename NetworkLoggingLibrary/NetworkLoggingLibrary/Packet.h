@@ -13,7 +13,7 @@ namespace logovernet
 	{
 	public:
 
-		const char* packet_msg;
+		std::string packet_msg;
 
 		void serialize(char* data)
 		{

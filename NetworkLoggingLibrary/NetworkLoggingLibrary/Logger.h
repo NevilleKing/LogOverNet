@@ -8,6 +8,7 @@
 #include "ClientNetwork.h"
 #include "Packet.h"
 #include "Networking.h"
+#include <vector>
 
 namespace logovernet
 {

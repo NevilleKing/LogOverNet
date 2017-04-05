@@ -18,15 +18,15 @@ namespace logovernet
 
 	void Logger::sendMessage(std::string msg, LOG_SEVERITY severity)
 	{
-		// create packet
+		std::vector<char> cStr(msg.begin(), msg.end());
+		// NUL termination for string
+		// This will allow us to know where the end of the string is on the other end
+		cStr.push_back('\0');
+
+		
 		const unsigned int packet_size = sizeof(Packet);
 		char packet_data[packet_size];
 
-		Packet packet;
-		packet.packet_msg = msg.c_str();
-
-		packet.serialize(packet_data);
-
-		Network::sendMsg(network->ConnectSocket, packet_data, packet_size);
+		Network::sendMsg(network->ConnectSocket, cStr.data(), packet_size);
 	}
 }
