@@ -17,7 +17,7 @@ namespace logovernet
 	{
 	public:
 		// constructors
-		Logger(std::string ipAddress);
+		Logger(std::string ipAddress, std::string portNumber);
 		~Logger();
 		Logger(const Logger& obj) {};
 

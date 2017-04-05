@@ -2,12 +2,12 @@
 
 namespace logovernet
 {
-	Logger::Logger(std::string ipAddress)
+	Logger::Logger(std::string ipAddress, std::string portNumber)
 	{
 		_ipAddress = ipAddress;
 		
 		// setup the client network object
-		network = new ClientNetwork();
+		network = new ClientNetwork(ipAddress, portNumber);
 	}
 
 	Logger::~Logger()

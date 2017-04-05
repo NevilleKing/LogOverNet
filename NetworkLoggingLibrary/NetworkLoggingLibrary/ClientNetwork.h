@@ -7,6 +7,7 @@
 #include "Networking.h"
 #include <WS2tcpip.h>
 #include <iostream>
+#include <vector>
 
 // Defines
 // TODO: Replace these later on
@@ -32,7 +33,7 @@ namespace logovernet
 		SOCKET ConnectSocket;
 
 		// constructors
-		ClientNetwork();
+		ClientNetwork(std::string ip_addr, std::string port_num);
 		~ClientNetwork();
 	};
 }

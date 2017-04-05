@@ -3,8 +3,14 @@
 namespace logovernet
 {
 
-	ClientNetwork::ClientNetwork()
+	ClientNetwork::ClientNetwork(std::string ip_addr, std::string port_num)
 	{
+		// convert strings to c_str
+		std::vector<char> ip(ip_addr.begin(), ip_addr.end());
+		ip.push_back('\0');
+		std::vector<char> port(port_num.begin(), port_num.end());
+		port.push_back('\0');
+
 		// Create WSADATA object
 		WSADATA wsaData;
 
@@ -32,7 +38,7 @@ namespace logovernet
 		hints.ai_protocol = IPPROTO_TCP; // tcp connection
 
 		// resolve server address and port
-		iResult = getaddrinfo("127.0.0.1", DEFAULT_PORT, &hints, &result);
+		iResult = getaddrinfo(ip.data(), port.data(), &hints, &result);
 
 		if (iResult != 0)
 		{
