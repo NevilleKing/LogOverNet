@@ -34,6 +34,9 @@ public:
 	// accept new connection
 	bool acceptNewClient(unsigned int& id);
 
+	// close a connection with a client
+	bool closeClientConnection(unsigned int& id);
+
 	// receive incoming data
 	int receiveData(unsigned int client_id, char* recvbuf);
 
