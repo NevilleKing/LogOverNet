@@ -98,6 +98,11 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 		// insert new client into session id table
 		sessions.insert(std::pair<unsigned int, SOCKET>(id, ClientSocket));
 
+		// get the ip address so we can output
+		std::string peer_ip = getIPfromSocket(ClientSocket);
+
+		std::cout << "Client " << peer_ip << " connected." << std::endl;
+
 		return true;
 	}
 
@@ -131,4 +136,22 @@ int ServerNetwork::receiveData(unsigned int client_id, char * recvbuf)
 		return iResult;
 	}
 	return 0;
+}
+
+std::string ServerNetwork::getIPfromSocket(SOCKET s)
+{
+	struct sockaddr_storage addr;
+	socklen_t len = sizeof(addr);
+
+	if (getpeername(s, (struct sockaddr*)&addr, &len) != SOCKET_ERROR)
+	{
+		char ipstr[INET6_ADDRSTRLEN];
+		struct sockaddr_in *s_in = (struct sockaddr_in*)&addr;
+		inet_ntop(AF_INET, &s_in->sin_addr, ipstr, sizeof(ipstr));
+		return std::string(ipstr);
+	}
+	else // unable to get ip address info
+	{
+		return std::string();
+	}
 }

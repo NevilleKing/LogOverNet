@@ -16,12 +16,7 @@ void ServerHandler::update()
 {
 	// get new clients
 	if (network->acceptNewClient(client_id))
-	{
-		std::cout << "Client " << client_id <<
-			" has been connected to the server." << std::endl;
-
 		client_id++;
-	}
 
 	receiveFromClients();
 }

@@ -42,4 +42,7 @@ public:
 
 	// table to keep track of each client
 	std::map<unsigned int, SOCKET> sessions;
+
+private:
+	std::string getIPfromSocket(SOCKET s);
 };
