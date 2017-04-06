@@ -39,16 +39,21 @@ void ServerHandler::receiveFromClients()
 			continue;
 		}
 
-		//int i = 0;
-		//while (i < (unsigned int)data_length)
-		//{
-
+		// loop through the network data as there may be multiple log messages to output
+		int lastPos = 0;
 		char* pos_char = strchr(network_data, '\0');
-		int pos = (int)(pos_char - network_data);
-		std::string outputString(network_data, 0, pos);
 
-		outputLogMessage(iter->second.peer_ip, outputString);
-		//find}
+		do
+		{
+			int pos = (int)(pos_char - network_data) + 1;
+			if (pos > (sizeof(network_data) / sizeof(*network_data))) break;
+			std::string outputString(&network_data[lastPos], 0, pos - lastPos);
+
+			outputLogMessage(iter->second.peer_ip, outputString);
+
+			lastPos = pos;
+			pos_char++;
+		} while ((pos_char = strchr(pos_char, '\0')) && pos_char != NULL);
 	}
 
 	// remove closed sessions
