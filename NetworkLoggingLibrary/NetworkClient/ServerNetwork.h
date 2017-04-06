@@ -17,6 +17,22 @@
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "6881"
 
+// class to hold info about connections
+class ConnectedSocket
+{
+public:
+	ConnectedSocket(SOCKET s, std::string ip)
+	{
+		socket = s;
+		peer_ip = ip;
+	};
+
+	ConnectedSocket() {};
+
+	SOCKET socket;
+	std::string peer_ip;
+};
+
 class ServerNetwork
 {
 public:
@@ -41,7 +57,7 @@ public:
 	int receiveData(unsigned int client_id, char* recvbuf);
 
 	// table to keep track of each client
-	std::map<unsigned int, SOCKET> sessions;
+	std::map<unsigned int, ConnectedSocket> sessions;
 
 private:
 	std::string getIPfromSocket(SOCKET s);

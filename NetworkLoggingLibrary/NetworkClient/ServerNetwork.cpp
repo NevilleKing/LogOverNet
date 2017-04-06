@@ -95,11 +95,11 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 
 	if (ClientSocket != INVALID_SOCKET)
 	{
-		// insert new client into session id table
-		sessions.insert(std::pair<unsigned int, SOCKET>(id, ClientSocket));
-
 		// get the ip address so we can output
 		std::string peer_ip = getIPfromSocket(ClientSocket);
+
+		// insert new client into session id table
+		sessions.insert(std::pair<unsigned int, ConnectedSocket>(id, {ClientSocket, peer_ip}));
 
 		std::cout << "Client " << peer_ip << " connected." << std::endl;
 
@@ -115,11 +115,15 @@ bool ServerNetwork::closeClientConnection(unsigned int & id)
 	auto session = sessions.find(id);
 	if (session != sessions.end())
 	{
-		iResult = closesocket(session->second);
+		std::string peer_ip = sessions[id].peer_ip;
+		iResult = closesocket(session->second.socket);
 		if (iResult != SOCKET_ERROR)
 		{
-			//sessions.erase(id);
-			std::cout << "Connection closed with client #" << id << std::endl;
+			if (peer_ip == "")
+				std::cout << "Connection closed with client." << std::endl;
+			else
+				std::cout << "Connection closed with " << peer_ip << "." << std::endl;
+
 			return true;
 		}
 	}
@@ -130,7 +134,7 @@ int ServerNetwork::receiveData(unsigned int client_id, char * recvbuf)
 {
 	if (sessions.find(client_id) != sessions.end())
 	{
-		SOCKET currentSocket = sessions[client_id];
+		SOCKET currentSocket = sessions[client_id].socket;
 		iResult = NetworkServices::receiveMessage(currentSocket, recvbuf,
 			MAX_PACKET_SIZE);
 		return iResult;

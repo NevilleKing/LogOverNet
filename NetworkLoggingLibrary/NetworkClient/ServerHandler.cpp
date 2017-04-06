@@ -24,7 +24,7 @@ void ServerHandler::update()
 void ServerHandler::receiveFromClients()
 {
 	// go through all clients
-	std::map<unsigned int, SOCKET>::iterator iter;
+	std::map<unsigned int, ConnectedSocket>::iterator iter;
 
 	for (iter = network->sessions.begin(); iter != network->sessions.end(); iter++)
 	{
