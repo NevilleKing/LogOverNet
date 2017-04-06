@@ -6,6 +6,9 @@
 #include "ServerNetwork.h"
 #include "Packet.h"
 #include <vector>
+#include <iostream>
+#include <sstream>
+#include <ctime>
 
 class ServerHandler
 {
@@ -31,5 +34,9 @@ private:
 
 	// to store sessions to be removed
 	std::vector<unsigned int> _sessionsToBeRemoved;
+
+	// output a message in the format:
+	// [ip] [dd/mm/yy HH:MM:SS] : message
+	void outputMessage(std::string ip, std::string message);
 };
 
