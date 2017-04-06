@@ -24,8 +24,7 @@ namespace logovernet
 		cStr.push_back('\0');
 
 		
-		const unsigned int packet_size = sizeof(Packet);
-		char packet_data[packet_size];
+		const unsigned int packet_size = cStr.size() * sizeof(char);
 
 		Network::sendMsg(network->ConnectSocket, cStr.data(), packet_size);
 	}
