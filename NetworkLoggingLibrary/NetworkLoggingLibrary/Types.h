@@ -146,4 +146,208 @@ namespace logovernet
 		}
 	};
 
+	template <typename L>
+	class LonBasicType
+	{
+	private:
+		L _val;
+	public:
+		LonBasicType() {};
+		LonBasicType(L val) : _val(val) {};
+
+		// casting
+		template<class G>
+		const G& get() const
+		{
+			return dynamic_cast<G>(L);
+		}
+
+		// operator overloads
+		T operator=(const LonBasicType & other)
+		{
+			_val = other._val;
+			return *this;
+		}
+		LonBasicType operator+(const LonBasicType & other)
+		{
+			LonBasicType temp(other);
+			temp += other._val;
+			return temp;
+		}
+		LonBasicType operator-(const LonBasicType & other)
+		{
+			LonBasicType temp(other);
+			temp -= other._val;
+			return temp;
+		}
+		LonBasicType operator*(const LonBasicType & other)
+		{
+			LonBasicType temp(other);
+			temp *= other._val;
+			return temp;
+		}
+		LonBasicType operator/(const LonBasicType & other)
+		{
+			LonBasicType temp(other);
+			temp /= other._val;
+			return temp;
+		}
+		LonBasicType operator%(const LonBasicType & other)
+		{
+			LonBasicType temp(other);
+			temp %= other._val;
+			return temp;
+		}
+		LonBasicType& operator++()
+		{
+			++_val;
+			return *this;
+		}
+		LonBasicType operator++(int)
+		{
+			LonBasicType temp(_val);
+			++_val;
+			return  temp;
+		}
+		LonBasicType& operator--()
+		{
+			--_val;
+			return *this;
+		}
+		LonBasicType operator--(int)
+		{
+			LonBasicType temp(_val);
+			--_val;
+			return  temp;
+		}
+		bool operator==(const LonBasicType & other)
+		{
+			return (_val == other._val);
+		}
+		bool operator!=(const LonBasicType & other)
+		{
+			return !(_val == other._val);
+		}
+		bool operator>(const LonBasicType & other)
+		{
+			return (_val > other._val);
+		}
+		bool operator<(const LonBasicType & other)
+		{
+			return (_val < other._val);
+		}
+		bool operator>=(const LonBasicType & other)
+		{
+			return (_val >= other._val);
+		}
+		bool operator<=(const LonBasicType & other)
+		{
+			return (_val <= other._val);
+		}
+		LonBasicType operator!()
+		{
+			LonBasicType temp(_val);
+			temp._val = !temp._val;
+			return temp;
+		}
+		LonBasicType operator&&(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val && other._val;
+			return temp;
+		}
+		LonBasicType operator||(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val || other._val;
+			return temp;
+		}
+		LonBasicType operator~()
+		{
+			LonBasicType temp(_val);
+			temp._val = ~temp._val;
+			return temp;
+		}
+		LonBasicType operator&(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val & other._val;
+			return temp;
+		}
+		LonBasicType operator|(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val | other._val;
+			return temp;
+		}
+		LonBasicType operator^(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val ^ other._val;
+			return temp;
+		}
+		LonBasicType operator<<(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val << other._val;
+			return temp;
+		}
+		LonBasicType operator>>(const LonBasicType & other)
+		{
+			LonBasicType temp(_val);
+			temp._val = temp._val >> other._val;
+			return temp;
+		}
+		LonBasicType& operator+=(const LonBasicType & other)
+		{
+			_val += other._val;
+			return *this;
+		}
+		LonBasicType& operator-=(const LonBasicType & other)
+		{
+			_val -= other._val;
+			return *this;
+		}
+		LonBasicType& operator*=(const LonBasicType & other)
+		{
+			_val *= other._val;
+			return *this;
+		}
+		LonBasicType& operator/=(const LonBasicType & other)
+		{
+			_val /= other._val;
+			return *this;
+		}
+		LonBasicType& operator%=(const LonBasicType & other)
+		{
+			_val %= other._val;
+			return *this;
+		}
+		LonBasicType& operator&=(const LonBasicType & other)
+		{
+			_val &= other._val;
+			return *this;
+		}
+		LonBasicType& operator|=(const LonBasicType & other)
+		{
+			_val |= other._val;
+			return *this;
+		}
+		LonBasicType& operator^=(const LonBasicType & other)
+		{
+			_val ^= other._val;
+			return *this;
+		}
+		LonBasicType& operator<<=(const LonBasicType & other)
+		{
+			_val <<= other._val;
+			return *this;
+		}
+		LonBasicType& operator>>=(const LonBasicType & other)
+		{
+			_val >>= other._val;
+			return *this;
+		}
+	};
+
 }
