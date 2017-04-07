@@ -83,6 +83,67 @@ namespace logovernet
 			return *this;
 		}
 
+		// Compound assignment operators
+		LonType& operator+=(const LonType & other)
+		{
+			T::operator+=(other);
+			std::cout << "+= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator-=(const LonType & other)
+		{
+			T::operator-=(other);
+			std::cout << "-= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator*=(const LonType & other)
+		{
+			T::operator*=(other);
+			std::cout << "*= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator/=(const LonType & other)
+		{
+			T::operator/=(other);
+			std::cout << "/= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator%=(const LonType & other)
+		{
+			T::operator%=(other);
+			std::cout << "%= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator&=(const LonType & other)
+		{
+			T::operator&=(other);
+			std::cout << "&= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator|=(const LonType & other)
+		{
+			T::operator|=(other);
+			std::cout << "|= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator^=(const LonType & other)
+		{
+			T::operator^=(other);
+			std::cout << "^= operator" << std::endl;
+			return *this;
+		}
+		LonType& operator<<=(const LonType & other)
+		{
+			T::operator<==(other);
+			std::cout << "<== operator" << std::endl;
+			return *this;
+		}
+		LonType& operator>>=(const LonType & other)
+		{
+			T::operator>>=(other);
+			std::cout << ">>= operator" << std::endl;
+			return *this;
+		}
 	};
 
 }
