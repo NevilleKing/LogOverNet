@@ -156,14 +156,10 @@ namespace logovernet
 		LonBasicType(L val) : _val(val) {};
 
 		// casting
-		template<class G>
-		const G& get() const
-		{
-			return dynamic_cast<G>(L);
-		}
+		operator L() const { return _val; }
 
 		// operator overloads
-		T operator=(const LonBasicType & other)
+		LonBasicType& operator=(const LonBasicType & other)
 		{
 			_val = other._val;
 			return *this;
