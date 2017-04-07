@@ -5,3 +5,4 @@
 
 #include "Severity.h"
 #include "Logger.h"
+#include "Types.h"

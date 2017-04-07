@@ -114,6 +114,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Networking.cpp" />
+    <ClCompile Include="Types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientNetwork.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Networking.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Severity.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
