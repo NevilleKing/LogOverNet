@@ -44,6 +44,45 @@ namespace logovernet
 		{
 			std::cout << "destroyed" << std::endl;
 		}
+
+		// Overloaded Operators ===
+
+		// Assignment
+		LonType& operator=(const LonType & other)
+		{
+			T::operator=( other );
+			std::cout << "assignment operator" << std::endl;
+			return *this;
+		}
+
+		// Increment
+		LonType& operator++()
+		{
+			T::operator++();
+			std::cout << "increment operator" << std::endl;
+			return *this;
+		}
+		LonType operator++(int)
+		{
+			T::operator++(int);
+			std::cout << "increment operator" << std::endl;
+			return *this;
+		}
+
+		// Decrement
+		LonType& operator--()
+		{
+			T::operator--();
+			std::cout << "decrement operator" << std::endl;
+			return *this;
+		}
+		LonType operator--(int)
+		{
+			T::operator--(int);
+			std::cout << "decrement operator" << std::endl;
+			return *this;
+		}
+
 	};
 
 }
