@@ -10,13 +10,13 @@
 #include <map>
 
 #include "NetworkServices.h"
-#include "Packet.h"
 #include "outputFuncs.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "6881"
+#define MAX_PACKET_SIZE 1000000
 
 // class to hold info about connections
 class ConnectedSocket
@@ -39,7 +39,7 @@ class ServerNetwork
 public:
 	// constructors
 	ServerNetwork(char* port_num);
-	~ServerNetwork();
+	~ServerNetwork() {};
 
 	// Socket to listen for new connections
 	SOCKET ListenSocket;

@@ -5,14 +5,13 @@
 
 #include "outputFuncs.h"
 #include "ServerNetwork.h"
-#include "Packet.h"
 #include <vector>
 
 class ServerHandler
 {
 public:
 	ServerHandler(char* port);
-	~ServerHandler();
+	~ServerHandler() {};
 
 	// update function
 	void update();
