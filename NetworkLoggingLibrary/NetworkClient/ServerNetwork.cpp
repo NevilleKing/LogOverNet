@@ -86,6 +86,29 @@ ServerNetwork::ServerNetwork(char* port_num)
 		WSACleanup();
 		exit(1);
 	}
+
+	// Get the current ip address
+	char hostName[255];
+	bool success = false;
+	if (gethostname(hostName, 255) != SOCKET_ERROR)
+	{
+		struct hostent *host_entry;
+		host_entry = gethostbyname(hostName);
+		if (host_entry != nullptr)
+		{
+			char* localIP = inet_ntoa(*(struct in_addr*)*host_entry->h_addr_list);
+			if (localIP != NULL)
+			{
+				std::cout << "== Server Started. IP: " << localIP << " | Port: " << port_num << " ==" << std::endl;
+				success = true;
+			}
+		}
+	}
+	
+	if (!success) // unable to get ip address info
+	{
+		std::cout << "== Server Started. Port: " << port_num << " ==" << std::endl;
+	}
 }
 
 bool ServerNetwork::acceptNewClient(unsigned int & id)
