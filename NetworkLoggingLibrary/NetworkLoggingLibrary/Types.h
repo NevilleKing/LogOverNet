@@ -239,36 +239,6 @@ namespace logovernet
 			--_val;
 			return  temp;
 		}
-		bool operator==(const LonBasicType & other)
-		{
-			return (_val == other._val);
-		}
-		bool operator!=(const LonBasicType & other)
-		{
-			return !(_val == other._val);
-		}
-		bool operator>(const LonBasicType & other)
-		{
-			return (_val > other._val);
-		}
-		bool operator<(const LonBasicType & other)
-		{
-			return (_val < other._val);
-		}
-		bool operator>=(const LonBasicType & other)
-		{
-			return (_val >= other._val);
-		}
-		bool operator<=(const LonBasicType & other)
-		{
-			return (_val <= other._val);
-		}
-		LonBasicType operator!()
-		{
-			LonBasicType temp(_val);
-			temp._val = !temp._val;
-			return temp;
-		}
 		LonBasicType operator&&(const LonBasicType & other)
 		{
 			LonBasicType temp(_val);
