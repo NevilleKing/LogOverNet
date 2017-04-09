@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <type_traits>
+#include <sstream>
 
 namespace logovernet
 {
@@ -30,19 +31,24 @@ namespace logovernet
 		>
 		LonType(Arg&& arg, Args&& ... args) : T(std::forward<Arg>(arg), std::forward<Args>(args) ...)
 		{
-			std::cout << "created" << std::endl;
+			LogMessage("Constructed. Initial value:");
+		}
+
+		LonType() : T()
+		{
+			LogMessage("Constructed. Initial value:");
 		}
 
 		// copy constructor
 		LonType(const LonType& obj) : T(obj)
 		{
-			std::cout << "copied" << std::endl;
+			LogMessage("Copied", false);
 		}
 
 		// destructor
 		~LonType()
 		{
-			std::cout << "destroyed" << std::endl;
+			LogMessage("Destroyed", false);
 		}
 
 		// Overloaded Operators ===
@@ -51,7 +57,7 @@ namespace logovernet
 		LonType& operator=(const LonType & other)
 		{
 			T::operator=( other );
-			std::cout << "assignment operator" << std::endl;
+			LogMessage("New value assigned. New value:");
 			return *this;
 		}
 
@@ -59,13 +65,13 @@ namespace logovernet
 		LonType& operator++()
 		{
 			T::operator++();
-			std::cout << "increment operator" << std::endl;
+			LogMessage("++ operator called. New value:");
 			return *this;
 		}
 		LonType operator++(int)
 		{
 			T::operator++(0);
-			std::cout << "increment operator" << std::endl;
+			LogMessage("++ operator called. New value:");
 			return *this;
 		}
 
@@ -73,13 +79,13 @@ namespace logovernet
 		LonType& operator--()
 		{
 			T::operator--();
-			std::cout << "decrement operator" << std::endl;
+			LogMessage("-- operator called. New value:");
 			return *this;
 		}
 		LonType operator--(int)
 		{
 			T::operator--(0);
-			std::cout << "decrement operator" << std::endl;
+			LogMessage("-- operator called. New value:");
 			return *this;
 		}
 
@@ -87,62 +93,79 @@ namespace logovernet
 		LonType& operator+=(const LonType & other)
 		{
 			T::operator+=(other);
-			std::cout << "+= operator" << std::endl;
+			LogMessage("+= operator called. New value:");
 			return *this;
 		}
 		LonType& operator-=(const LonType & other)
 		{
 			T::operator-=(other);
-			std::cout << "-= operator" << std::endl;
+			LogMessage("-= operator called. New value:");
 			return *this;
 		}
 		LonType& operator*=(const LonType & other)
 		{
 			T::operator*=(other);
-			std::cout << "*= operator" << std::endl;
+			LogMessage("*= operator called. New value:");
 			return *this;
 		}
 		LonType& operator/=(const LonType & other)
 		{
 			T::operator/=(other);
-			std::cout << "/= operator" << std::endl;
+			LogMessage("/= operator called. New value:");
 			return *this;
 		}
 		LonType& operator%=(const LonType & other)
 		{
 			T::operator%=(other);
-			std::cout << "%= operator" << std::endl;
+			LogMessage("%= operator called. New value:");
 			return *this;
 		}
 		LonType& operator&=(const LonType & other)
 		{
 			T::operator&=(other);
-			std::cout << "&= operator" << std::endl;
+			LogMessage("&= operator called. New value:");
 			return *this;
 		}
 		LonType& operator|=(const LonType & other)
 		{
 			T::operator|=(other);
-			std::cout << "|= operator" << std::endl;
+			LogMessage("|= operator called. New value:");
 			return *this;
 		}
 		LonType& operator^=(const LonType & other)
 		{
 			T::operator^=(other);
-			std::cout << "^= operator" << std::endl;
+			LogMessage("^= operator called. New value:");
 			return *this;
 		}
 		LonType& operator<<=(const LonType & other)
 		{
-			T::operator<==(other);
-			std::cout << "<== operator" << std::endl;
+			T::operator<<=(other);
+			LogMessage("<<== operator called. New value:");
 			return *this;
 		}
 		LonType& operator>>=(const LonType & other)
 		{
 			T::operator>>=(other);
-			std::cout << ">>= operator" << std::endl;
+			LogMessage(">>= operator called. New value:");
 			return *this;
+		}
+
+	private:
+		// log message to the GLOBAL_LOGGER
+		void LogMessage(std::string msg, bool addValue = true)
+		{
+			if (GLOBAL_LOGGER != nullptr)
+			{
+				if (addValue)
+				{
+					std::stringstream ss;
+					ss << msg << " " << *this;
+					GLOBAL_LOGGER->sendMessage(ss.str(), LOG_SEVERITY::LON_INFO);
+				} 
+				else
+					GLOBAL_LOGGER->sendMessage(msg, LOG_SEVERITY::LON_INFO);
+			}
 		}
 	};
 

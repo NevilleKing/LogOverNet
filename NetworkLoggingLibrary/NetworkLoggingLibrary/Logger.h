@@ -31,4 +31,6 @@ namespace logovernet
 		// Client Networking object which calls the Winsock API
 		ClientNetwork* network;
 	};
+
+	static Logger* GLOBAL_LOGGER = nullptr;
 }
