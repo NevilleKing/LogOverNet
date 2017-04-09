@@ -9,14 +9,6 @@
 
 namespace logovernet
 {
-	// typedefs for basic types
-	typedef LonType<LonBasicType<bool>>    lon_bool;
-	typedef LonType<LonBasicType<char>>    lon_char;
-	typedef LonType<LonBasicType<int>>     lon_int;
-	typedef LonType<LonBasicType<float>>   lon_float;
-	typedef LonType<LonBasicType<double>>  lon_double;
-	typedef LonType<LonBasicType<wchar_t>> lon_wchar_t;
-
 	// helper for copy constructor below
 	template<bool B, typename T = void> using disable_if = std::enable_if<!B, T>;
 
@@ -72,7 +64,7 @@ namespace logovernet
 		}
 		LonType operator++(int)
 		{
-			T::operator++(int);
+			T::operator++(0);
 			std::cout << "increment operator" << std::endl;
 			return *this;
 		}
@@ -86,7 +78,7 @@ namespace logovernet
 		}
 		LonType operator--(int)
 		{
-			T::operator--(int);
+			T::operator--(0);
 			std::cout << "decrement operator" << std::endl;
 			return *this;
 		}
@@ -353,5 +345,13 @@ namespace logovernet
 			return *this;
 		}
 	};
+
+	// typedefs for basic types
+	typedef LonType<LonBasicType<bool>>    lon_bool;
+	typedef LonType<LonBasicType<char>>    lon_char;
+	typedef LonType<LonBasicType<int>>     lon_int;
+	typedef LonType<LonBasicType<float>>   lon_float;
+	typedef LonType<LonBasicType<double>>  lon_double;
+	typedef LonType<LonBasicType<wchar_t>> lon_wchar_t;
 
 }
