@@ -52,7 +52,6 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 	++totalLogMessages;
 
 	// move the pad down automatically the pad is currently positioned at the bottom
-	int i = LINES - 4;
 	if (totalLogMessages >= (LINES - 4) && (padPosition + (LINES - 4)) == totalLogMessages)
 		++padPosition;
 
@@ -99,4 +98,20 @@ void LogOutput::updateWindow(LOG_WINDOWS window, std::string value)
 int LogOutput::getKeyboardInput()
 {
 	return wgetch(wins[1]);
+}
+
+void LogOutput::moveWindow(int moveAmount)
+{
+	// only need to update if the the user is able to scroll
+	if (totalLogMessages >= (LINES - 4))
+	{
+		bool movef = false;
+		if (moveAmount > 0 && ((padPosition + (LINES - 4) + moveAmount) <= (totalLogMessages+1)))
+			movef = true;
+		if (moveAmount < 0 && (padPosition + moveAmount) >= 0)
+			movef = true;
+
+		if (movef)
+			prefresh(wins[1], padPosition += moveAmount, 0, 2, 0, LINES - 4, COLS);
+	}
 }

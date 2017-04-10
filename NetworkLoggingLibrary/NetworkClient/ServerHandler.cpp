@@ -39,6 +39,12 @@ bool ServerHandler::update()
 			return false;
 		}
 		break;
+	case KEY_UP: // move the logs up
+		LogOutput::moveWindow(-1);
+		break;
+	case KEY_DOWN: // move the logs down
+		LogOutput::moveWindow(1);
+		break;
 	}
 
 	return true;

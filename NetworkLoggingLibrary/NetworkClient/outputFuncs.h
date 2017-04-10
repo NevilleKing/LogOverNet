@@ -26,9 +26,14 @@ public:
 	static void initCurses();
 	static void stopCurses();
 
+	// Overwrite a window with a string
 	static void updateWindow(LOG_WINDOWS window, std::string value);
 
+	// get the int value of a key that has been pressed
 	static int getKeyboardInput();
+
+	// move main window up or down
+	static void moveWindow(int moveAmount);
 
 private:
 	// windows for curses
