@@ -10,6 +10,18 @@ ServerHandler::ServerHandler(char* port)
 
 	// setup the server network object to listen
 	network = new ServerNetwork(port);
+
+	// setup curses
+	initscr();
+	cbreak();
+	noecho(); // don't show ouput
+	//curs_set(0); // don't show cursor
+	keypad(stdscr, TRUE); // alow keyboard input handling
+}
+
+ServerHandler::~ServerHandler()
+{
+	endwin(); // end curses mode
 }
 
 void ServerHandler::update()

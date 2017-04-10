@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "curses\curses.h"
+
 #include "outputFuncs.h"
 #include "ServerNetwork.h"
 #include <vector>
@@ -11,7 +13,7 @@ class ServerHandler
 {
 public:
 	ServerHandler(char* port);
-	~ServerHandler() {};
+	~ServerHandler();
 
 	// update function
 	void update();
