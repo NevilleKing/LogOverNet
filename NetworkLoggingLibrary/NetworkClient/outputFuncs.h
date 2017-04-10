@@ -34,4 +34,7 @@ private:
 
 	// current scroll of pad (for log messages)
 	static int padPosition;
+
+	// keep track of the amount of log messages
+	static int totalLogMessages;
 };

@@ -2,11 +2,15 @@
 
 WINDOW* LogOutput::wins[3];
 int LogOutput::padPosition = 0;
+int LogOutput::totalLogMessages = 0;
 
 void LogOutput::outputLogMessage(std::string ip, std::string message)
 {
 	// create output stringstream
 	std::stringstream output;
+
+	if (totalLogMessages != 0)
+	output << "\n";
 
 	// ip address
 	if (ip != "")
@@ -39,10 +43,18 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 	(precSec ? std::string("0").append(std::to_string(now->tm_sec)) : std::to_string(now->tm_sec)) << "] ";
 
 	// message
-	output << ": " << message << "\n";
+	output << ": " << message;
 
 	// output the entire string
 	wprintw(wins[1], output.str().c_str());
+
+	// update the amount of log messages
+	++totalLogMessages;
+
+	// move the pad down automatically the pad is currently positioned at the bottom
+	int i = LINES - 4;
+	if (totalLogMessages >= (LINES - 4) && (padPosition + (LINES - 4)) == totalLogMessages)
+		++padPosition;
 
 	// refresh the pad (window)
 	prefresh(wins[1], padPosition, 0, 2, 0, LINES - 4, COLS);
@@ -60,7 +72,7 @@ void LogOutput::initCurses()
 	// create windows
 	wins[0] = newwin(2, COLS, 0, 0); // top
 	wins[1] = newpad(PAD_HEIGHT, COLS); // middle area (pad because it's scrollable)
-	wins[2] = newwin(2, COLS, LINES - 2, 0); // bottom
+	wins[2] = newwin(1, COLS, LINES - 1, 0); // bottom
 }
 
 void LogOutput::stopCurses()
@@ -75,12 +87,8 @@ void LogOutput::updateWindow(LOG_WINDOWS window, std::string value)
 	// clear window first
 	wclear(w);
 
-	// if the window is the top it doesn't need an offset,
-	// the bottom needs a 1 offset
-	int ypos = window == LOG_WINDOWS::WIN_TOP ? 0 : 1;
-
 	// print to window
-	mvwprintw(w, ypos, 0, value.c_str());
+	mvwprintw(w, 0, 0, value.c_str());
 
 	// refresh the window
 	wrefresh(w);

@@ -38,6 +38,8 @@ void ServerHandler::receiveFromClients()
 
 	for (iter = network->sessions.begin(); iter != network->sessions.end(); iter++)
 	{
+		memset(&network_data[0], 1, sizeof(network_data));
+
 		// get data for that client
 		int data_length = network->receiveData(iter->first, network_data);
 
