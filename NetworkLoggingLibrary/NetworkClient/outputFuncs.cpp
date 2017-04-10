@@ -113,5 +113,11 @@ void LogOutput::moveWindow(int moveAmount)
 
 		if (movef)
 			prefresh(wins[1], padPosition += moveAmount, 0, 2, 0, LINES - 4, COLS);
+
+		// update cursor
+		if ((padPosition + (LINES - 4)) == (totalLogMessages+1))
+			curs_set(1);
+		else
+			curs_set(0);
 	}
 }
