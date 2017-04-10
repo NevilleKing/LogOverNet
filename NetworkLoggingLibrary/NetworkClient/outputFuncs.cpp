@@ -67,12 +67,14 @@ void LogOutput::initCurses()
 	cbreak();
 	noecho(); // don't show ouput
 	//curs_set(0); // don't show cursor
-	keypad(stdscr, TRUE); // alow keyboard input handling
 
 	// create windows
 	wins[0] = newwin(2, COLS, 0, 0); // top
 	wins[1] = newpad(PAD_HEIGHT, COLS); // middle area (pad because it's scrollable)
 	wins[2] = newwin(1, COLS, LINES - 1, 0); // bottom
+
+	keypad(wins[1], TRUE); // alow keyboard input handling
+	nodelay(wins[1], TRUE);
 }
 
 void LogOutput::stopCurses()
@@ -92,4 +94,9 @@ void LogOutput::updateWindow(LOG_WINDOWS window, std::string value)
 
 	// refresh the window
 	wrefresh(w);
+}
+
+int LogOutput::getKeyboardInput()
+{
+	return wgetch(wins[1]);
 }

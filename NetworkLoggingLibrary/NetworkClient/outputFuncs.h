@@ -28,6 +28,8 @@ public:
 
 	static void updateWindow(LOG_WINDOWS window, std::string value);
 
+	static int getKeyboardInput();
+
 private:
 	// windows for curses
 	static WINDOW* wins[3];

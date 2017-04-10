@@ -22,13 +22,26 @@ ServerHandler::~ServerHandler()
 	LogOutput::stopCurses();
 }
 
-void ServerHandler::update()
+bool ServerHandler::update()
 {
 	// get new clients
 	if (network->acceptNewClient(client_id))
 		client_id++;
 
 	receiveFromClients();
+
+	// process keyboard input
+	switch (LogOutput::getKeyboardInput())
+	{
+	case 27: // ESC or ALT
+		if (LogOutput::getKeyboardInput() == -1) // ESC
+		{
+			return false;
+		}
+		break;
+	}
+
+	return true;
 }
 
 void ServerHandler::receiveFromClients()

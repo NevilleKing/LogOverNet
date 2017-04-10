@@ -14,7 +14,7 @@ public:
 	~ServerHandler();
 
 	// update function
-	void update();
+	bool update();
 
 	// receive messages from clients
 	void receiveFromClients();

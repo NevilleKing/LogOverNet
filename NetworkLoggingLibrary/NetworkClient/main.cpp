@@ -34,6 +34,7 @@ void ServerLoop()
 	{
 		// call the update function every loop
 		// this checks to see if there is new clients / messages waiting
-		server->update();
+		if (!server->update())
+			break;
 	}
 }
