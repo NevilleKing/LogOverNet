@@ -8,10 +8,11 @@ ServerHandler::ServerHandler(char* port)
 	// init the client id
 	client_id = 0;
 
+	// init curses
+	LogOutput::initCurses();
+
 	// setup the server network object to listen
 	network = new ServerNetwork(port);
-
-	LogOutput::initCurses();
 }
 
 ServerHandler::~ServerHandler()

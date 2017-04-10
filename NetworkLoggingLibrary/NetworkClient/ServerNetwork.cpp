@@ -99,7 +99,9 @@ ServerNetwork::ServerNetwork(char* port_num)
 			char* localIP = inet_ntoa(*(struct in_addr*)*host_entry->h_addr_list);
 			if (localIP != NULL)
 			{
-				std::cout << "== Server Started. IP: " << localIP << " | Port: " << port_num << " ==" << std::endl;
+				std::stringstream ss;
+				ss << "LogOverNet Server | IP: " << localIP << " | Port: " << port_num;
+				LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_TOP, ss.str());
 				success = true;
 			}
 		}
@@ -107,8 +109,12 @@ ServerNetwork::ServerNetwork(char* port_num)
 	
 	if (!success) // unable to get ip address info
 	{
-		std::cout << "== Server Started. Port: " << port_num << " ==" << std::endl;
+		std::stringstream ss;
+		ss << "LogOverNet Server | Port: " << port_num;
+		LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_TOP, ss.str());
 	}
+
+	LogOutput::outputLogMessage("", "== Server Started ==");
 }
 
 bool ServerNetwork::acceptNewClient(unsigned int & id)

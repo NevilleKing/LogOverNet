@@ -1,6 +1,7 @@
 #include "outputFuncs.h"
 
 WINDOW* LogOutput::wins[3];
+int LogOutput::padPosition = 0;
 
 void LogOutput::outputLogMessage(std::string ip, std::string message)
 {
@@ -8,7 +9,8 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 	std::stringstream output;
 
 	// ip address
-	output << "[" << ip << "] ";
+	if (ip != "")
+		output << "[" << ip << "] ";
 
 	// time
 	bool precDay = false, precMon = false, precHour = false, precMin = false, precSec = false;
@@ -37,10 +39,13 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 	(precSec ? std::string("0").append(std::to_string(now->tm_sec)) : std::to_string(now->tm_sec)) << "] ";
 
 	// message
-	output << ": " << message;
+	output << ": " << message << "\n";
 
 	// output the entire string
-	std::cout << output.str() << std::endl;
+	wprintw(wins[1], output.str().c_str());
+
+	// refresh the pad (window)
+	prefresh(wins[1], padPosition, 0, 2, 0, LINES - 4, COLS);
 }
 
 void LogOutput::initCurses()
@@ -54,11 +59,29 @@ void LogOutput::initCurses()
 
 	// create windows
 	wins[0] = newwin(2, COLS, 0, 0); // top
-	wins[1] = newpad(PAD_HEIGHT, COLS); // middle area
+	wins[1] = newpad(PAD_HEIGHT, COLS); // middle area (pad because it's scrollable)
 	wins[2] = newwin(2, COLS, LINES - 2, 0); // bottom
 }
 
 void LogOutput::stopCurses()
 {
 	endwin(); // end curses mode
+}
+
+void LogOutput::updateWindow(LOG_WINDOWS window, std::string value)
+{
+	WINDOW* w = wins[window];
+
+	// clear window first
+	wclear(w);
+
+	// if the window is the top it doesn't need an offset,
+	// the bottom needs a 1 offset
+	int ypos = window == LOG_WINDOWS::WIN_TOP ? 0 : 1;
+
+	// print to window
+	mvwprintw(w, ypos, 0, value.c_str());
+
+	// refresh the window
+	wrefresh(w);
 }
