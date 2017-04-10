@@ -1,6 +1,8 @@
 #include "outputFuncs.h"
 
-void outputLogMessage(std::string ip, std::string message)
+WINDOW* LogOutput::wins[3];
+
+void LogOutput::outputLogMessage(std::string ip, std::string message)
 {
 	// create output stringstream
 	std::stringstream output;
@@ -39,4 +41,24 @@ void outputLogMessage(std::string ip, std::string message)
 
 	// output the entire string
 	std::cout << output.str() << std::endl;
+}
+
+void LogOutput::initCurses()
+{
+	// setup curses
+	initscr();
+	cbreak();
+	noecho(); // don't show ouput
+	//curs_set(0); // don't show cursor
+	keypad(stdscr, TRUE); // alow keyboard input handling
+
+	// create windows
+	wins[0] = newwin(2, COLS, 0, 0); // top
+	wins[1] = newpad(PAD_HEIGHT, COLS); // middle area
+	wins[2] = newwin(2, COLS, LINES - 2, 0); // bottom
+}
+
+void LogOutput::stopCurses()
+{
+	endwin(); // end curses mode
 }

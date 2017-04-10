@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "curses\curses.h"
-
 #include "outputFuncs.h"
 #include "ServerNetwork.h"
 #include <vector>

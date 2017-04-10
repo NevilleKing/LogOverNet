@@ -124,7 +124,7 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 		// insert new client into session id table
 		sessions.insert(std::pair<unsigned int, ConnectedSocket>(id, {ClientSocket, peer_ip}));
 
-		outputLogMessage(peer_ip, "==== Client " + peer_ip + " connected ====");
+		LogOutput::outputLogMessage(peer_ip, "==== Client " + peer_ip + " connected ====");
 
 		return true;
 	}
@@ -143,9 +143,9 @@ bool ServerNetwork::closeClientConnection(unsigned int & id)
 		if (iResult != SOCKET_ERROR)
 		{
 			if (peer_ip == "")
-				outputLogMessage(peer_ip, "Connection closed with client.");
+				LogOutput::outputLogMessage(peer_ip, "Connection closed with client.");
 			else
-				outputLogMessage(peer_ip, "==== Connection closed with " + peer_ip + " ====");
+				LogOutput::outputLogMessage(peer_ip, "==== Connection closed with " + peer_ip + " ====");
 
 			return true;
 		}

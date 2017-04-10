@@ -11,17 +11,12 @@ ServerHandler::ServerHandler(char* port)
 	// setup the server network object to listen
 	network = new ServerNetwork(port);
 
-	// setup curses
-	initscr();
-	cbreak();
-	noecho(); // don't show ouput
-	//curs_set(0); // don't show cursor
-	keypad(stdscr, TRUE); // alow keyboard input handling
+	LogOutput::initCurses();
 }
 
 ServerHandler::~ServerHandler()
 {
-	endwin(); // end curses mode
+	LogOutput::stopCurses();
 }
 
 void ServerHandler::update()
@@ -61,7 +56,7 @@ void ServerHandler::receiveFromClients()
 			if (pos > (sizeof(network_data) / sizeof(*network_data))) break;
 			std::string outputString(&network_data[lastPos], 0, pos - lastPos);
 
-			outputLogMessage(iter->second.peer_ip, outputString);
+			LogOutput::outputLogMessage(iter->second.peer_ip, outputString);
 
 			lastPos = pos;
 			pos_char++;

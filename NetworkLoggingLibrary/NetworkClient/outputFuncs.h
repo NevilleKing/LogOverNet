@@ -7,6 +7,21 @@
 #include <sstream>
 #include <ctime>
 
-// output a message in the format:
-// [ip] [dd/mm/yy HH:MM:SS] : message
-void outputLogMessage(std::string ip, std::string message);
+#include <curses.h>
+
+#define PAD_HEIGHT 9001
+
+class LogOutput
+{
+public:
+	// output a message in the format:
+	// [ip] [dd/mm/yy HH:MM:SS] : message
+	static void outputLogMessage(std::string ip, std::string message);
+
+	static void initCurses();
+	static void stopCurses();
+
+private:
+	// windows for curses
+	static WINDOW* wins[3];
+};
