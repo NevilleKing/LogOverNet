@@ -11,6 +11,8 @@ ServerHandler::ServerHandler(char* port)
 	// init curses
 	LogOutput::initCurses();
 
+	LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_BOTTOM, "UP/DOWN: Move log output | TAB: Switch between log and variable view");
+
 	// setup the server network object to listen
 	network = new ServerNetwork(port);
 }
