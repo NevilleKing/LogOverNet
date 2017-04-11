@@ -113,7 +113,7 @@ void LogOutput::moveWindow(int moveAmount)
 	if (messages.size() >= (LINES - 4))
 	{
 		bool movef = false;
-		if (moveAmount > 0 && ((currentLogPosition + (LINES - 4) + moveAmount) <= (currentLogPosition +1)))
+		if (moveAmount > 0 && ((currentLogPosition + (LINES - 4) + moveAmount) <= messages.size()))
 			movef = true;
 		if (moveAmount < 0 && (currentLogPosition + moveAmount) >= 0)
 			movef = true;
@@ -126,7 +126,7 @@ void LogOutput::moveWindow(int moveAmount)
 		}
 
 		// update cursor
-		if ((currentLogPosition + (LINES - 4)) == (currentLogPosition +1))
+		if ((currentLogPosition + (LINES - 4)) == messages.size())
 			curs_set(1);
 		else
 			curs_set(0);
@@ -139,6 +139,13 @@ void LogOutput::redrawLogMessages(int offset)
 	{
 		offset = -offset;
 		for (int i = currentLogPosition, j = 0; i < (currentLogPosition + offset); ++i, ++j)
+			mvwprintw(wins[1], j, 0, messages[i].c_str());
+		wrefresh(wins[1]);
+	}
+	else if (offset > 0)
+	{
+		int bottomPos = (LINES - 4);
+		for (int i = (currentLogPosition-offset)+bottomPos, j = bottomPos - offset; i < (currentLogPosition + bottomPos); ++i, ++j)
 			mvwprintw(wins[1], j, 0, messages[i].c_str());
 		wrefresh(wins[1]);
 	}

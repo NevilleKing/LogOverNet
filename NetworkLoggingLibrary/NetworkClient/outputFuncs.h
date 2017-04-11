@@ -11,8 +11,6 @@
 
 #include <vector>
 
-#define PAD_HEIGHT 9001
-
 class LogOutput
 {
 public:
