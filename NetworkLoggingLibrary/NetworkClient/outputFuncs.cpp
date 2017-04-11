@@ -1,6 +1,8 @@
 #include "outputFuncs.h"
 
-WINDOW* LogOutput::wins[3];
+bool LogOutput::variableView = false;
+WINDOW* LogOutput::wins[4];
+PANEL* LogOutput::panels[4];
 int LogOutput::currentLogPosition = 0;
 std::vector<std::string> LogOutput::messages;
 
@@ -59,7 +61,8 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 		wprintw(wins[1], out.c_str());
 
 		// refresh the window to display on screen
-		wrefresh(wins[1]);
+		update_panels();
+		doupdate();
 	}
 }
 
@@ -69,18 +72,32 @@ void LogOutput::initCurses()
 	initscr();
 	cbreak();
 	noecho(); // don't show ouput
-	//curs_set(0); // don't show cursor
 
 	// create windows
 	wins[0] = newwin(2, COLS, 0, 0); // top
 	wins[1] = newwin(LINES - 4, COLS, 2, 0); // middle area
 	wins[2] = newwin(1, COLS, LINES - 1, 0); // bottom
+	wins[3] = newwin(LINES - 10, COLS - 10, 5, 5); // variable window
+
+	box(wins[3], 0, 0);
 
 	// can scroll the main window
 	scrollok(wins[1], TRUE);
 
 	keypad(wins[1], TRUE); // alow keyboard input handling
 	nodelay(wins[1], TRUE);
+
+	// create panels
+	panels[0] = new_panel(wins[0]);
+	panels[1] = new_panel(wins[1]);
+	panels[2] = new_panel(wins[2]);
+	panels[3] = new_panel(wins[3]);
+
+	// hide the top panel until the user presses TAB
+	hide_panel(panels[3]);
+
+	update_panels();
+	doupdate();
 }
 
 void LogOutput::stopCurses()
@@ -99,7 +116,8 @@ void LogOutput::updateWindow(LOG_WINDOWS window, std::string value)
 	mvwprintw(w, 0, 0, value.c_str());
 
 	// refresh the window
-	wrefresh(w);
+	update_panels();
+	doupdate();
 }
 
 int LogOutput::getKeyboardInput()
@@ -133,6 +151,17 @@ void LogOutput::moveWindow(int moveAmount)
 	}
 }
 
+void LogOutput::toggleWindow()
+{
+	if (variableView)
+		hide_panel(panels[3]);
+	else
+		show_panel(panels[3]);
+	update_panels();
+	doupdate();
+	variableView = !variableView;
+}
+
 void LogOutput::redrawLogMessages(int offset)
 {
 	if (offset < 0)
@@ -140,13 +169,15 @@ void LogOutput::redrawLogMessages(int offset)
 		offset = -offset;
 		for (int i = currentLogPosition, j = 0; i < (currentLogPosition + offset); ++i, ++j)
 			mvwprintw(wins[1], j, 0, messages[i].c_str());
-		wrefresh(wins[1]);
+		update_panels();
+		doupdate();
 	}
 	else if (offset > 0)
 	{
 		int bottomPos = (LINES - 4);
 		for (int i = (currentLogPosition-offset)+bottomPos, j = bottomPos - offset; i < (currentLogPosition + bottomPos); ++i, ++j)
 			mvwprintw(wins[1], j, 0, messages[i].c_str());
-		wrefresh(wins[1]);
+		update_panels();
+		doupdate();
 	}
 }

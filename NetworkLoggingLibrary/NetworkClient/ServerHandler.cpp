@@ -45,6 +45,9 @@ bool ServerHandler::update()
 	case KEY_DOWN: // move the logs down
 		LogOutput::moveWindow(1);
 		break;
+	case 9: // tab
+		LogOutput::toggleWindow();
+		break;
 	}
 
 	return true;

@@ -8,6 +8,7 @@
 #include <ctime>
 
 #include <curses.h>
+#include <panel.h>
 
 #include <vector>
 
@@ -35,9 +36,17 @@ public:
 	// move main window up or down
 	static void moveWindow(int moveAmount);
 
+	// toggle the main window between log and variable view
+	static void toggleWindow();
+
 private:
+	static bool variableView;
+
 	// windows for curses
-	static WINDOW* wins[3];
+	static WINDOW* wins[4];
+
+	// panels for middle section
+	static PANEL* panels[4];
 
 	// current scroll of window (for log messages)
 	// refers to the topmost visible message
