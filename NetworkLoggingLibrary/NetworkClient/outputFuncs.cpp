@@ -1,16 +1,13 @@
 #include "outputFuncs.h"
 
 WINDOW* LogOutput::wins[3];
-int LogOutput::padPosition = 0;
-int LogOutput::totalLogMessages = 0;
+int LogOutput::currentLogPosition = 0;
+std::vector<std::string> LogOutput::messages;
 
 void LogOutput::outputLogMessage(std::string ip, std::string message)
 {
 	// create output stringstream
 	std::stringstream output;
-
-	if (totalLogMessages != 0)
-	output << "\n";
 
 	// ip address
 	if (ip != "")
@@ -45,18 +42,25 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 	// message
 	output << ": " << message;
 
-	// output the entire string
-	wprintw(wins[1], output.str().c_str());
+	// add to vector
+	messages.push_back(output.str());
 
-	// update the amount of log messages
-	++totalLogMessages;
+	// check if we need to move the window down (log is positioned at bottom of screen)
+	if ((currentLogPosition + (LINES - 3)) == messages.size())
+		++currentLogPosition;
+	// check if we need to output
+	if (messages.size() < (LINES - 4) || (currentLogPosition + (LINES - 3)) == (messages.size()+1))
+	{
+		std::string out = output.str();
+		if (messages.size() != 1)
+			out = "\n" + out;
 
-	// move the pad down automatically the pad is currently positioned at the bottom
-	if (totalLogMessages >= (LINES - 4) && (padPosition + (LINES - 4)) == totalLogMessages)
-		++padPosition;
+		// output the entire string
+		wprintw(wins[1], out.c_str());
 
-	// refresh the pad (window)
-	prefresh(wins[1], padPosition, 0, 2, 0, LINES - 4, COLS);
+		// refresh the window to display on screen
+		wrefresh(wins[1]);
+	}
 }
 
 void LogOutput::initCurses()
@@ -69,8 +73,11 @@ void LogOutput::initCurses()
 
 	// create windows
 	wins[0] = newwin(2, COLS, 0, 0); // top
-	wins[1] = newpad(PAD_HEIGHT, COLS); // middle area (pad because it's scrollable)
+	wins[1] = newwin(LINES - 4, COLS, 2, 0); // middle area
 	wins[2] = newwin(1, COLS, LINES - 1, 0); // bottom
+
+	// can scroll the main window
+	scrollok(wins[1], TRUE);
 
 	keypad(wins[1], TRUE); // alow keyboard input handling
 	nodelay(wins[1], TRUE);
@@ -103,21 +110,36 @@ int LogOutput::getKeyboardInput()
 void LogOutput::moveWindow(int moveAmount)
 {
 	// only need to update if the the user is able to scroll
-	if (totalLogMessages >= (LINES - 4))
+	if (messages.size() >= (LINES - 4))
 	{
 		bool movef = false;
-		if (moveAmount > 0 && ((padPosition + (LINES - 4) + moveAmount) <= (totalLogMessages+1)))
+		if (moveAmount > 0 && ((currentLogPosition + (LINES - 4) + moveAmount) <= (currentLogPosition +1)))
 			movef = true;
-		if (moveAmount < 0 && (padPosition + moveAmount) >= 0)
+		if (moveAmount < 0 && (currentLogPosition + moveAmount) >= 0)
 			movef = true;
 
 		if (movef)
-			prefresh(wins[1], padPosition += moveAmount, 0, 2, 0, LINES - 4, COLS);
+		{
+			wscrl(wins[1], moveAmount);
+			currentLogPosition += moveAmount;
+			redrawLogMessages(moveAmount);
+		}
 
 		// update cursor
-		if ((padPosition + (LINES - 4)) == (totalLogMessages+1))
+		if ((currentLogPosition + (LINES - 4)) == (currentLogPosition +1))
 			curs_set(1);
 		else
 			curs_set(0);
+	}
+}
+
+void LogOutput::redrawLogMessages(int offset)
+{
+	if (offset < 0)
+	{
+		offset = -offset;
+		for (int i = currentLogPosition, j = 0; i < (currentLogPosition + offset); ++i, ++j)
+			mvwprintw(wins[1], j, 0, messages[i].c_str());
+		wrefresh(wins[1]);
 	}
 }

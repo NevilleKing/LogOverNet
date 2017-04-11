@@ -9,6 +9,8 @@
 
 #include <curses.h>
 
+#include <vector>
+
 #define PAD_HEIGHT 9001
 
 class LogOutput
@@ -39,9 +41,12 @@ private:
 	// windows for curses
 	static WINDOW* wins[3];
 
-	// current scroll of pad (for log messages)
-	static int padPosition;
+	// current scroll of window (for log messages)
+	// refers to the topmost visible message
+	static int currentLogPosition;
 
-	// keep track of the amount of log messages
-	static int totalLogMessages;
+	// all log messages
+	static std::vector<std::string> messages;
+
+	static void redrawLogMessages(int offset);
 };
