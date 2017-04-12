@@ -156,10 +156,14 @@ namespace logovernet
 			if (GLOBAL_LOGGER != nullptr)
 			{
 				std::stringstream ss;
-				ss << "[" << this << "] " << msg;
+				std::stringstream variable, addr;
+				variable << *this;
+				addr << this;
+				ss << "[" << variable.str() << "] " << msg;
 				if (addValue)
-					ss << " " << *this;
+					ss << " " << addr.str();
 				GLOBAL_LOGGER->sendMessage(ss.str(), LOG_SEVERITY::LON_INFO);
+				GLOBAL_LOGGER->sendVariable(variable.str(), addr.str());
 			}
 		}
 	};

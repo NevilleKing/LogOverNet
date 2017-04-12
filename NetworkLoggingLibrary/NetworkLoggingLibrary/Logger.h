@@ -8,6 +8,7 @@
 #include "ClientNetwork.h"
 #include "Networking.h"
 #include <vector>
+#include "Packet.h"
 
 namespace logovernet
 {
@@ -24,11 +25,18 @@ namespace logovernet
 		// severity level (see Severity.h)
 		void sendMessage(std::string msg, LOG_SEVERITY severity);
 
+		// send the value of a variable (including the mem address so
+		// we can keep track of the value)
+		void sendVariable(std::string variable, std::string memAddr);
+
 	private:
 		std::string _ipAddress;
 		
 		// Client Networking object which calls the Winsock API
 		ClientNetwork* network;
+
+		// basic function for sending data
+		void sendData(const Packet& packet);
 	};
 
 	static Logger* GLOBAL_LOGGER = nullptr;

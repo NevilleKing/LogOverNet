@@ -9,20 +9,15 @@
 
 namespace logovernet
 {
-	class Packet
+	struct Packet
 	{
-	public:
+		// Severity Level
+		LOG_SEVERITY severity;
 
-		std::string packet_msg;
+		// Memory address of variable (can be blank)
+		std::string memory_address;
 
-		void serialize(char* data)
-		{
-			memcpy(data, this, sizeof(Packet));
-		}
-
-		void deserialize(char* data)
-		{
-			memcpy(this, data, sizeof(Packet));
-		}
+		// Message / Variable value
+		std::string data;
 	};
 }
