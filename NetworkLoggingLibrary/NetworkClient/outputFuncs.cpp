@@ -172,8 +172,22 @@ void LogOutput::updateVariableWindow(std::map<std::string, std::string>& variabl
 		// add the border
 		box(vWin, 0, 0);
 
-		// add the header
+		// add the headers
+		int yPos = 3, xPos = ((COLS - 10) - 84) / 2;
 		mvwprintw(vWin, 1, 2, "Variable View");
+		mvwprintw(vWin, yPos++, xPos, "Memory Address\tCurrent Value");
+		mvwprintw(vWin, yPos++, xPos, "-----------------------------------------------------------------------------------");
+
+		// iterate through the map of variables
+		for (auto iter = variable_map.begin(); iter != variable_map.end(); ++iter, ++yPos)
+		{
+			// loop through to add spaces to get the correct formatting
+			std::string spaces("");
+			for (int i = iter->first.length(); i < 19; i++)
+				spaces += " ";
+			// print the variable
+			mvwprintw(vWin, yPos, xPos, "%s%s%s", iter->first.c_str(), spaces.c_str(), iter->second.c_str());
+		}
 
 		// update window
 		update_panels();
