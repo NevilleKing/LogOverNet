@@ -79,8 +79,6 @@ void LogOutput::initCurses()
 	wins[2] = newwin(1, COLS, LINES - 1, 0); // bottom
 	wins[3] = newwin(LINES - 10, COLS - 10, 5, 5); // variable window
 
-	box(wins[3], 0, 0);
-
 	// can scroll the main window
 	scrollok(wins[1], TRUE);
 
@@ -160,6 +158,27 @@ void LogOutput::toggleWindow()
 	update_panels();
 	doupdate();
 	variableView = !variableView;
+}
+
+void LogOutput::updateVariableWindow(std::map<std::string, std::string>& variable_map)
+{
+	if (variableView)
+	{
+		WINDOW* vWin = wins[3];
+
+		// clear the window
+		wclear(vWin);
+
+		// add the border
+		box(vWin, 0, 0);
+
+		// add the header
+		mvwprintw(vWin, 1, 2, "Variable View");
+
+		// update window
+		update_panels();
+		doupdate();
+	}
 }
 
 void LogOutput::redrawLogMessages(int offset)

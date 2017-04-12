@@ -11,6 +11,7 @@
 #include <panel.h>
 
 #include <vector>
+#include <map>
 
 class LogOutput
 {
@@ -39,7 +40,11 @@ public:
 	// toggle the main window between log and variable view
 	static void toggleWindow();
 
+	// update the variable window
+	static void updateVariableWindow(std::map<std::string, std::string>& variable_map);
+
 private:
+	// the variable window is showing
 	static bool variableView;
 
 	// windows for curses
