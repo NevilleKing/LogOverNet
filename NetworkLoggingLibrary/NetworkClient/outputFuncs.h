@@ -13,6 +13,8 @@
 #include <vector>
 #include <map>
 
+#include "Severity.h"
+
 class LogOutput
 {
 public:
@@ -23,7 +25,7 @@ public:
 
 	// output a message in the format:
 	// [ip] [dd/mm/yy HH:MM:SS] : message
-	static void outputLogMessage(std::string ip, std::string message);
+	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity);
 
 	static void initCurses();
 	static void stopCurses();

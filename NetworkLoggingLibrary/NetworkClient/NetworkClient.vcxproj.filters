@@ -47,5 +47,8 @@
     <ClInclude Include="outputFuncs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Severity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

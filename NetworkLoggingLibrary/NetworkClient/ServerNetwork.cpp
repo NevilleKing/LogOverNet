@@ -114,7 +114,7 @@ ServerNetwork::ServerNetwork(char* port_num)
 		LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_TOP, ss.str());
 	}
 
-	LogOutput::outputLogMessage("", "== Server Started ==");
+	LogOutput::outputLogMessage("", "== Server Started ==", LOG_SEVERITY::LON_INFO);
 }
 
 bool ServerNetwork::acceptNewClient(unsigned int & id)
@@ -130,7 +130,7 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 		// insert new client into session id table
 		sessions.insert(std::pair<unsigned int, ConnectedSocket>(id, {ClientSocket, peer_ip}));
 
-		LogOutput::outputLogMessage(peer_ip, "==== Client " + peer_ip + " connected ====");
+		LogOutput::outputLogMessage(peer_ip, "==== Client " + peer_ip + " connected ====", LOG_SEVERITY::LON_INFO);
 
 		return true;
 	}
@@ -149,9 +149,9 @@ bool ServerNetwork::closeClientConnection(unsigned int & id)
 		if (iResult != SOCKET_ERROR)
 		{
 			if (peer_ip == "")
-				LogOutput::outputLogMessage(peer_ip, "Connection closed with client.");
+				LogOutput::outputLogMessage(peer_ip, "Connection closed with client.", LOG_SEVERITY::LON_INFO);
 			else
-				LogOutput::outputLogMessage(peer_ip, "==== Connection closed with " + peer_ip + " ====");
+				LogOutput::outputLogMessage(peer_ip, "==== Connection closed with " + peer_ip + " ====", LOG_SEVERITY::LON_INFO);
 
 			return true;
 		}

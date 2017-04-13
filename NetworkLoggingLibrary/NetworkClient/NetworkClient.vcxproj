@@ -159,6 +159,7 @@
     <ClInclude Include="Packet.h" />
     <ClInclude Include="ServerHandler.h" />
     <ClInclude Include="ServerNetwork.h" />
+    <ClInclude Include="Severity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

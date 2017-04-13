@@ -6,7 +6,7 @@ PANEL* LogOutput::panels[4];
 int LogOutput::currentLogPosition = 0;
 std::vector<std::string> LogOutput::messages;
 
-void LogOutput::outputLogMessage(std::string ip, std::string message)
+void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity)
 {
 	// create output stringstream
 	std::stringstream output;
@@ -40,6 +40,9 @@ void LogOutput::outputLogMessage(std::string ip, std::string message)
 	(precHour ? std::string("0").append(std::to_string(now->tm_hour)) : std::to_string(now->tm_hour)) << ":" <<
 	(precMin ? std::string("0").append(std::to_string(now->tm_min)) : std::to_string(now->tm_min)) << ":" <<
 	(precSec ? std::string("0").append(std::to_string(now->tm_sec)) : std::to_string(now->tm_sec)) << "] ";
+
+	// Severity Level
+	output << "[" << LOG_STRINGS[severity] << "] ";
 
 	// message
 	output << ": " << message;

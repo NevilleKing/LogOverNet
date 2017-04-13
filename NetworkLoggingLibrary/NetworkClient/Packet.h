@@ -5,22 +5,9 @@
 
 #include <string>
 
+#include "Severity.h"
+
 #define MAX_PACKET_SIZE 1000000
-
-enum LOG_SEVERITY {
-	LON_DEBUG,
-	LON_INFO,
-	LON_WARNING,
-	LON_ERROR
-};
-
-const std::string LOG_STRINGS[4]
-{
-	"DEBUG",
-	"INFO",
-	"WARNING",
-	"ERROR"
-};
 
 struct Packet
 {

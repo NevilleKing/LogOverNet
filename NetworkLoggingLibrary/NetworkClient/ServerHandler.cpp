@@ -85,8 +85,8 @@ void ServerHandler::receiveFromClients()
 			if ((currentLoop % 2) == 0)
 			{
 				++lastPos;
-				if (currentLoop > 0 && retrPacket.memory_address.length() == 0) // TODO: Handle severity level
-					LogOutput::outputLogMessage(iter->second.peer_ip, retrPacket.data);
+				if (currentLoop > 0 && retrPacket.memory_address.length() == 0)
+					LogOutput::outputLogMessage(iter->second.peer_ip, retrPacket.data, retrPacket.severity);
 				else if (currentLoop > 0)
 					updateVariable(retrPacket.memory_address, retrPacket.data);
 			}

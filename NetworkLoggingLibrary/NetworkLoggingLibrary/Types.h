@@ -160,7 +160,7 @@ namespace logovernet
 				variable << *this;
 				if (destroyed) addr << "-";
 				addr << this;
-				ss << "[" << this << "] " << msg;
+				ss << "(" << this << ") " << msg;
 				if (addValue)
 					ss << " " << variable.str();
 				GLOBAL_LOGGER->sendMessage(ss.str(), LOG_SEVERITY::LON_INFO);

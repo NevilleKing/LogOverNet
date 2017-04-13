@@ -11,6 +11,7 @@
 
 #include "NetworkServices.h"
 #include "outputFuncs.h"
+#include "Severity.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 
