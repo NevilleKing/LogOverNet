@@ -77,16 +77,33 @@ void ServerHandler::receiveFromClients()
 		int lastPos = 0;
 		char* pos_char = strchr(network_data, '\0');
 
+		Packet retrPacket;
+		int currentLoop = 0;
 		do
 		{
+			if ((currentLoop % 2) == 0)
+			{
+				++lastPos;
+				if(currentLoop > 0 && retrPacket.memory_address.length() == 0) // TODO: Handle severity level
+					LogOutput::outputLogMessage(iter->second.peer_ip, retrPacket.data);
+			}
+
 			int pos = (int)(pos_char - network_data) + 1;
 			if (pos > (sizeof(network_data) / sizeof(*network_data))) break;
+			
 			std::string outputString(&network_data[lastPos], 0, pos - lastPos);
 
-			LogOutput::outputLogMessage(iter->second.peer_ip, outputString);
+			if ((currentLoop % 2) == 0)
+			{
+				retrPacket.severity = static_cast<LOG_SEVERITY>(network_data[lastPos - 1]);
+				retrPacket.memory_address = outputString;
+			}
+			else
+				retrPacket.data = outputString;
 
 			lastPos = pos;
 			pos_char++;
+			++currentLoop;
 		} while ((pos_char = strchr(pos_char, '\0')) && pos_char != NULL);
 	}
 

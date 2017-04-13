@@ -6,6 +6,7 @@
 #include "outputFuncs.h"
 #include "ServerNetwork.h"
 #include <vector>
+#include "Packet.h"
 
 class ServerHandler
 {

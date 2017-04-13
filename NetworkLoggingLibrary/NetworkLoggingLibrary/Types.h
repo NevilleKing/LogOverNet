@@ -159,9 +159,9 @@ namespace logovernet
 				std::stringstream variable, addr;
 				variable << *this;
 				addr << this;
-				ss << "[" << variable.str() << "] " << msg;
+				ss << "[" << addr.str() << "] " << msg;
 				if (addValue)
-					ss << " " << addr.str();
+					ss << " " << variable.str();
 				GLOBAL_LOGGER->sendMessage(ss.str(), LOG_SEVERITY::LON_INFO);
 				GLOBAL_LOGGER->sendVariable(variable.str(), addr.str());
 			}

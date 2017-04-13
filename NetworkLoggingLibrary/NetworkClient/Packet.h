@@ -7,19 +7,29 @@
 
 #define MAX_PACKET_SIZE 1000000
 
-class Packet
+enum LOG_SEVERITY {
+	LON_DEBUG,
+	LON_INFO,
+	LON_WARNING,
+	LON_ERROR
+};
+
+const std::string LOG_STRINGS[4]
 {
-public:
+	"DEBUG",
+	"INFO",
+	"WARNING",
+	"ERROR"
+};
 
-	std::string packet_msg;
+struct Packet
+{
+	// Severity Level
+	LOG_SEVERITY severity;
 
-	void serialize(char* data)
-	{
-		memcpy(data, this, sizeof(Packet));
-	}
+	// Memory address of variable (can be blank)
+	std::string memory_address;
 
-	void deserialize(char* data)
-	{
-		memcpy(this, data, sizeof(Packet));
-	}
+	// Message / Variable value
+	std::string data;
 };
