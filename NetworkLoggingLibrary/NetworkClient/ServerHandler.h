@@ -21,6 +21,9 @@ public:
 	void receiveFromClients();
 
 private:
+	// add or update value of variable
+	void updateVariable(std::string memAddr, std::string value);
+
 	// id for the clients connecting
 	static unsigned int client_id;
 
@@ -32,6 +35,9 @@ private:
 
 	// to store sessions to be removed
 	std::vector<unsigned int> _sessionsToBeRemoved;
+
+	// map to store current variable values
+	std::map<std::string, std::string> _variableMap;
 
 };
 

@@ -47,6 +47,7 @@ bool ServerHandler::update()
 		break;
 	case 9: // tab
 		LogOutput::toggleWindow();
+		LogOutput::updateVariableWindow(_variableMap);
 		break;
 	}
 
@@ -84,8 +85,10 @@ void ServerHandler::receiveFromClients()
 			if ((currentLoop % 2) == 0)
 			{
 				++lastPos;
-				if(currentLoop > 0 && retrPacket.memory_address.length() == 0) // TODO: Handle severity level
+				if (currentLoop > 0 && retrPacket.memory_address.length() == 0) // TODO: Handle severity level
 					LogOutput::outputLogMessage(iter->second.peer_ip, retrPacket.data);
+				else if (currentLoop > 0)
+					updateVariable(retrPacket.memory_address, retrPacket.data);
 			}
 
 			int pos = (int)(pos_char - network_data) + 1;
@@ -117,4 +120,22 @@ void ServerHandler::receiveFromClients()
 		}
 		_sessionsToBeRemoved.clear();
 	}
+}
+
+void ServerHandler::updateVariable(std::string memAddr, std::string value)
+{
+	bool e = false;
+	if (memAddr[0] == '-') { e = true; memAddr = memAddr.substr(1); }
+	if (_variableMap.find(memAddr) == _variableMap.end())
+		_variableMap.emplace(memAddr, value); // not found, insert
+	else
+	{
+		if (e)
+			_variableMap.erase(memAddr);
+		else
+			_variableMap[memAddr] = value; // found value, update
+	}
+
+	// update the variable window
+	LogOutput::updateVariableWindow(_variableMap);
 }

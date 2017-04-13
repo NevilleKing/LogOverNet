@@ -46,7 +46,7 @@ namespace logovernet
 		// destructor
 		~LonType()
 		{
-			LogMessage("Destroyed", false);
+			LogMessage("Destroyed", false, true);
 		}
 
 		// Overloaded Operators ===
@@ -151,15 +151,16 @@ namespace logovernet
 
 	private:
 		// log message to the GLOBAL_LOGGER
-		void LogMessage(std::string msg, bool addValue = true)
+		void LogMessage(std::string msg, bool addValue = true, bool destroyed = false)
 		{
 			if (GLOBAL_LOGGER != nullptr)
 			{
 				std::stringstream ss;
 				std::stringstream variable, addr;
 				variable << *this;
+				if (destroyed) addr << "-";
 				addr << this;
-				ss << "[" << addr.str() << "] " << msg;
+				ss << "[" << this << "] " << msg;
 				if (addValue)
 					ss << " " << variable.str();
 				GLOBAL_LOGGER->sendMessage(ss.str(), LOG_SEVERITY::LON_INFO);
