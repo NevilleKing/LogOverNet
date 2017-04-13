@@ -142,10 +142,7 @@ void LogOutput::moveWindow(int moveAmount)
 		}
 
 		// update cursor
-		if ((currentLogPosition + (LINES - 4)) == messages.size())
-			curs_set(1);
-		else
-			curs_set(0);
+		updateCursor();
 	}
 }
 
@@ -158,6 +155,7 @@ void LogOutput::toggleWindow()
 	update_panels();
 	doupdate();
 	variableView = !variableView;
+	updateCursor();
 }
 
 void LogOutput::updateVariableWindow(std::map<std::string, std::string>& variable_map)
@@ -213,4 +211,17 @@ void LogOutput::redrawLogMessages(int offset)
 		update_panels();
 		doupdate();
 	}
+}
+
+void LogOutput::updateCursor()
+{
+	if (!variableView)
+	{
+		if (messages.size() < (LINES - 4) || (currentLogPosition + (LINES - 4)) == messages.size())
+			curs_set(1);
+		else
+			curs_set(0);
+	}
+	else
+		curs_set(0);
 }

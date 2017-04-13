@@ -61,4 +61,6 @@ private:
 	static std::vector<std::string> messages;
 
 	static void redrawLogMessages(int offset);
+
+	static void updateCursor();
 };
