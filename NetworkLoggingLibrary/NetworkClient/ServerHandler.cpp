@@ -11,7 +11,9 @@ ServerHandler::ServerHandler(char* port)
 	// init curses
 	LogOutput::initCurses();
 
-	LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_BOTTOM, "UP/DOWN: Move log output | TAB: Switch between log and variable view");
+	// Instructions window (bottom)
+	_basicInstr = "UP/DOWN: Move log output | TAB: View/hide variable view | ";
+	updateInstructionsWindow();
 
 	// setup the server network object to listen
 	network = new ServerNetwork(port);
@@ -138,4 +140,15 @@ void ServerHandler::updateVariable(std::string memAddr, std::string value)
 
 	// update the variable window
 	LogOutput::updateVariableWindow(_variableMap);
+}
+
+void ServerHandler::updateInstructionsWindow()
+{
+	std::stringstream output;
+	output << _basicInstr;
+	int len = (sizeof(LOG_STRINGS) / sizeof(LOG_STRINGS[0]));
+	output << "0-" << (len > 10 ? 9 : len - 1);
+	output << ": Filter severity (currently " << (_currentSeverity == -1 ? "ALL" : LOG_STRINGS[_currentSeverity]) << ")";
+
+	LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_BOTTOM, output.str());
 }

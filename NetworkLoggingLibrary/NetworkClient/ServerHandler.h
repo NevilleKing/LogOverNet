@@ -39,5 +39,13 @@ private:
 	// map to store current variable values
 	std::map<std::string, std::string> _variableMap;
 
+	// update instructions
+	void updateInstructionsWindow();
+
+	// to hold currently view severity level (-1 => ALL)
+	LOG_SEVERITY _currentSeverity = (LOG_SEVERITY)-1;
+
+	// Basic instructions (without severity level)
+	std::string _basicInstr;
 };
 
