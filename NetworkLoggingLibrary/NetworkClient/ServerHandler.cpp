@@ -33,7 +33,8 @@ bool ServerHandler::update()
 	receiveFromClients();
 
 	// process keyboard input
-	switch (LogOutput::getKeyboardInput())
+	int ch;
+	switch (ch = LogOutput::getKeyboardInput())
 	{
 	case 27: // ESC or ALT
 		if (LogOutput::getKeyboardInput() == -1) // ESC
@@ -50,6 +51,19 @@ bool ServerHandler::update()
 	case 9: // tab
 		LogOutput::toggleWindow();
 		LogOutput::updateVariableWindow(_variableMap);
+		break;
+	// handle 0-9 (severity level change)
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+		handleSeverityChange(ch - '0');
 		break;
 	}
 
@@ -146,9 +160,24 @@ void ServerHandler::updateInstructionsWindow()
 {
 	std::stringstream output;
 	output << _basicInstr;
-	int len = (sizeof(LOG_STRINGS) / sizeof(LOG_STRINGS[0]));
-	output << "0-" << (len > 10 ? 9 : len - 1);
+	output << "0-" << (LOG_STRINGS_LENGTH > 10 ? 9 : LOG_STRINGS_LENGTH);
 	output << ": Filter severity (currently " << (_currentSeverity == -1 ? "ALL" : LOG_STRINGS[_currentSeverity]) << ")";
 
 	LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_BOTTOM, output.str());
+}
+
+void ServerHandler::handleSeverityChange(int numPressed)
+{
+	// align number with string array
+	--numPressed;
+
+	// boundary check
+	if (numPressed >= -1 && numPressed < (int)LOG_STRINGS_LENGTH)
+	{
+		// change selected severity
+		_currentSeverity = (LOG_SEVERITY)numPressed;
+
+		// update help info
+		updateInstructionsWindow();
+	}
 }

@@ -47,5 +47,8 @@ private:
 
 	// Basic instructions (without severity level)
 	std::string _basicInstr;
+
+	// Severity change (i.e. 0-9 pressed)
+	void handleSeverityChange(int numPressed);
 };
 

@@ -16,3 +16,5 @@ const std::string LOG_STRINGS[4]
 	"WARNING",
 	"ERROR"
 };
+
+const unsigned int LOG_STRINGS_LENGTH = (sizeof(LOG_STRINGS) / sizeof(LOG_STRINGS[0]));
