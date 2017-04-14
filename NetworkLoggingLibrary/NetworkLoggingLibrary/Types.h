@@ -347,4 +347,6 @@ namespace logovernet
 	typedef LonType<LonBasicType<double>>  lon_double;
 	typedef LonType<LonBasicType<wchar_t>> lon_wchar_t;
 
+	// complex types
+	typedef LonType<std::string> lon_string;
 }
