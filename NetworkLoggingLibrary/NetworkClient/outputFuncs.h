@@ -14,6 +14,7 @@
 #include <map>
 
 #include "Severity.h"
+#include "LogMessage.h"
 
 class LogOutput
 {
@@ -22,6 +23,9 @@ public:
 		WIN_TOP = 0,
 		WIN_BOTTOM = 2
 	};
+
+	// to hold currently view severity level (-1 => ALL)
+	static LOG_SEVERITY currentSeverity;
 
 	// output a message in the format:
 	// [ip] [dd/mm/yy HH:MM:SS] : message
@@ -45,6 +49,8 @@ public:
 	// update the variable window
 	static void updateVariableWindow(std::map<std::string, std::string>& variable_map);
 
+	// filter log message based on severity level
+	static void filterLogMessages(LOG_SEVERITY severity);
 private:
 	// the variable window is showing
 	static bool variableView;
@@ -60,7 +66,10 @@ private:
 	static int currentLogPosition;
 
 	// all log messages
-	static std::vector<std::string> messages;
+	static std::vector<LogMessage> messages;
+	
+	// visible messages
+	static unsigned int visibleMessages;
 
 	static void redrawLogMessages(int offset);
 

@@ -1,10 +1,12 @@
 #include "outputFuncs.h"
 
+LOG_SEVERITY LogOutput::currentSeverity = (LOG_SEVERITY)-1;
 bool LogOutput::variableView = false;
 WINDOW* LogOutput::wins[4];
 PANEL* LogOutput::panels[4];
 int LogOutput::currentLogPosition = 0;
-std::vector<std::string> LogOutput::messages;
+std::vector<LogMessage> LogOutput::messages;
+unsigned int LogOutput::visibleMessages = 0;
 
 void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity)
 {
@@ -48,7 +50,16 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 	output << ": " << message;
 
 	// add to vector
-	messages.push_back(output.str());
+	messages.push_back({ severity, output.str() });
+
+	// we only need to output if we are currently filtered to this severity level
+	if (currentSeverity != -1 && severity != currentSeverity)
+	{
+		messages.back().visible = false;
+		return;
+	}
+
+	++visibleMessages;
 
 	// check if we need to move the window down (log is positioned at bottom of screen)
 	if ((currentLogPosition + (LINES - 3)) == messages.size())
@@ -196,13 +207,74 @@ void LogOutput::updateVariableWindow(std::map<std::string, std::string>& variabl
 	}
 }
 
+void LogOutput::filterLogMessages(LOG_SEVERITY severity)
+{
+	// do a basic loop and set the new severity level - not efficient!
+	visibleMessages = 0;
+	for (auto&& lMsg : messages)
+	{
+		if (lMsg.severity == severity || severity == -1)
+		{
+			lMsg.visible = true;
+			++visibleMessages;
+		}
+		else
+			lMsg.visible = false;
+	}
+
+	// now that the visibilities are correct, show them on the screen
+	// first clear the screen
+	wclear(wins[1]);
+
+	int startPos;
+
+	if (visibleMessages <= (LINES - 4))
+	{
+		startPos = (LINES - 4) - ((LINES - 4) - visibleMessages);
+		//currentLogPosition = 0;
+	}
+	else
+	{
+		startPos = (LINES - 4);
+		//currentLogPosition = visibleMessages - (LINES - 4) + 1;
+	}
+
+	--startPos;
+
+	// loop backwards to output messages
+	int currentPos = messages.size() - 1, x, y;
+	bool firstRun = true;
+	while (startPos >= 0 && currentPos >= 0)
+	{
+		if (messages[currentPos].visible)
+		{
+			mvwprintw(wins[1], startPos, 0, messages[currentPos].message.c_str());
+			if (firstRun)
+			{
+				firstRun = false;
+				getyx(wins[1], y, x);
+			}
+			--startPos;
+		}
+		--currentPos;
+	}
+
+	// show on screen
+	update_panels();
+	doupdate();
+
+	// update cursor position
+	if (!firstRun)
+		wmove(wins[1], y, x);
+}
+
 void LogOutput::redrawLogMessages(int offset)
 {
 	if (offset < 0)
 	{
 		offset = -offset;
 		for (int i = currentLogPosition, j = 0; i < (currentLogPosition + offset); ++i, ++j)
-			mvwprintw(wins[1], j, 0, messages[i].c_str());
+			mvwprintw(wins[1], j, 0, messages[i].message.c_str());
 		update_panels();
 		doupdate();
 	}
@@ -210,7 +282,7 @@ void LogOutput::redrawLogMessages(int offset)
 	{
 		int bottomPos = (LINES - 4);
 		for (int i = (currentLogPosition-offset)+bottomPos, j = bottomPos - offset; i < (currentLogPosition + bottomPos); ++i, ++j)
-			mvwprintw(wins[1], j, 0, messages[i].c_str());
+			mvwprintw(wins[1], j, 0, messages[i].message.c_str());
 		update_panels();
 		doupdate();
 	}

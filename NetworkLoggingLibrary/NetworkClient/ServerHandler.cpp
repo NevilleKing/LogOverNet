@@ -161,7 +161,7 @@ void ServerHandler::updateInstructionsWindow()
 	std::stringstream output;
 	output << _basicInstr;
 	output << "0-" << (LOG_STRINGS_LENGTH > 10 ? 9 : LOG_STRINGS_LENGTH);
-	output << ": Filter severity (currently " << (_currentSeverity == -1 ? "ALL" : LOG_STRINGS[_currentSeverity]) << ")";
+	output << ": Filter severity (currently " << (LogOutput::currentSeverity == -1 ? "ALL" : LOG_STRINGS[LogOutput::currentSeverity]) << ")";
 
 	LogOutput::updateWindow(LogOutput::LOG_WINDOWS::WIN_BOTTOM, output.str());
 }
@@ -172,12 +172,15 @@ void ServerHandler::handleSeverityChange(int numPressed)
 	--numPressed;
 
 	// boundary check
-	if (numPressed >= -1 && numPressed < (int)LOG_STRINGS_LENGTH)
+	if (numPressed >= -1 && numPressed < (int)LOG_STRINGS_LENGTH && LogOutput::currentSeverity != numPressed)
 	{
 		// change selected severity
-		_currentSeverity = (LOG_SEVERITY)numPressed;
+		LogOutput::currentSeverity = (LOG_SEVERITY)numPressed;
 
 		// update help info
 		updateInstructionsWindow();
+
+		// let output class handle filtering
+		LogOutput::filterLogMessages(LogOutput::currentSeverity);
 	}
 }

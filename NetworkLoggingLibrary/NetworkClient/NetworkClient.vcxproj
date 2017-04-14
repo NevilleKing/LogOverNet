@@ -154,6 +154,7 @@
     <ClCompile Include="ServerNetwork.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LogMessage.h" />
     <ClInclude Include="NetworkServices.h" />
     <ClInclude Include="outputFuncs.h" />
     <ClInclude Include="Packet.h" />
