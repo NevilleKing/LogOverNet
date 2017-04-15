@@ -36,6 +36,7 @@ namespace logovernet
 		void sendMessage(char msg, LOG_SEVERITY severity);
 		void sendMessage(float msg, LOG_SEVERITY severity);
 		void sendMessage(wchar_t msg, LOG_SEVERITY severity);
+		void sendMessage(char* msg, LOG_SEVERITY severity);
 
 		// Allow user to use << operator
 		template <typename T>

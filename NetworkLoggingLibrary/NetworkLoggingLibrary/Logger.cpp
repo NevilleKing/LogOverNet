@@ -47,6 +47,11 @@ namespace logovernet
 		sendMessage(std::to_string(msg), severity);
 	}
 
+	void Logger::sendMessage(char * msg, LOG_SEVERITY severity)
+	{
+		sendMessage(std::string(msg), severity);
+	}
+
 	void Logger::sendVariable(std::string variable, std::string memAddr)
 	{
 		Packet p = { LOG_SEVERITY::LON_INFO, memAddr, variable };
