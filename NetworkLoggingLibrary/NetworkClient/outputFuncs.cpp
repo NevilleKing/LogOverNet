@@ -62,12 +62,24 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 	}
 
 	++visibleMessages;
+	botVecPos = messages.size() - 1;
+
+	if (visibleMessages == 1)
+		topVecPos = botVecPos;
 
 	// check if we need to move the window down (log is positioned at bottom of screen)
-	if ((currentLogPosition + (LINES - 3)) == messages.size())
+	if ((currentLogPosition + (LINES - 3)) == visibleMessages)
+	{
 		++currentLogPosition;
+		// loop to find next visible message so we can update top vector position
+		while (++topVecPos < messages.size())
+		{
+			if (messages[topVecPos].visible)
+				break;
+		}
+	}
 	// check if we need to output
-	if (messages.size() < (LINES - 4) || (currentLogPosition + (LINES - 3)) == (messages.size()+1))
+	if (visibleMessages < (LINES - 4) || (currentLogPosition + (LINES - 3)) == (visibleMessages+1))
 	{
 		std::string out = output.str();
 		if (messages.size() != 1)
@@ -211,6 +223,10 @@ void LogOutput::updateVariableWindow(std::map<std::string, std::string>& variabl
 
 void LogOutput::filterLogMessages(LOG_SEVERITY severity)
 {
+	// reset position variables
+	topVecPos = 0;
+	botVecPos = 0;
+
 	// do a basic loop and set the new severity level - not efficient!
 	visibleMessages = 0;
 	for (auto&& lMsg : messages)
