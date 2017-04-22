@@ -157,7 +157,7 @@ void LogOutput::moveWindow(int moveAmount)
 	if (messages.size() >= (LINES - 4))
 	{
 		bool movef = false;
-		if (moveAmount > 0 && ((currentLogPosition + (LINES - 4) + moveAmount) <= messages.size()))
+		if (moveAmount > 0 && ((currentLogPosition + (LINES - 4) + moveAmount) <= visibleMessages))
 			movef = true;
 		if (moveAmount < 0 && (currentLogPosition + moveAmount) >= 0)
 			movef = true;
@@ -249,12 +249,12 @@ void LogOutput::filterLogMessages(LOG_SEVERITY severity)
 	if (visibleMessages <= (LINES - 4))
 	{
 		startPos = (LINES - 4) - ((LINES - 4) - visibleMessages);
-		//currentLogPosition = 0;
+		currentLogPosition = 0;
 	}
 	else
 	{
 		startPos = (LINES - 4);
-		//currentLogPosition = visibleMessages - (LINES - 4) + 1;
+		currentLogPosition = visibleMessages - (LINES - 4);
 	}
 
 	--startPos;
@@ -293,16 +293,44 @@ void LogOutput::redrawLogMessages(int offset)
 	if (offset < 0)
 	{
 		offset = -offset;
-		for (int i = currentLogPosition, j = 0; i < (currentLogPosition + offset); ++i, ++j)
-			mvwprintw(wins[1], j, 0, messages[i].message.c_str());
+		int j = offset;
+		while (--j >= 0)
+		{
+			while (--topVecPos > 0)
+			{
+				if (messages[topVecPos].visible)
+					break;
+			}
+			while (--botVecPos > 0)
+			{
+				if (messages[botVecPos].visible)
+					break;
+			}
+			mvwprintw(wins[1], j, 0, messages[topVecPos].message.c_str());
+		}
+
 		update_panels();
 		doupdate();
 	}
 	else if (offset > 0)
 	{
-		int bottomPos = (LINES - 4);
-		for (int i = (currentLogPosition-offset)+bottomPos, j = bottomPos - offset; i < (currentLogPosition + bottomPos); ++i, ++j)
-			mvwprintw(wins[1], j, 0, messages[i].message.c_str());
+		int bottomPos = (LINES - 5);
+		int j = bottomPos + 1;
+		while (--j > (bottomPos-offset))
+		{
+			while (++topVecPos < messages.size())
+			{
+				if (messages[topVecPos].visible)
+					break;
+			}
+			while (++botVecPos < messages.size())
+			{
+				if (messages[botVecPos].visible)
+					break;
+			}
+			mvwprintw(wins[1], j, 0, messages[botVecPos].message.c_str());
+		}
+
 		update_panels();
 		doupdate();
 	}
