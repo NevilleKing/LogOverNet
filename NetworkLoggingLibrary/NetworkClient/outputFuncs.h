@@ -74,4 +74,8 @@ private:
 	static void redrawLogMessages(int offset);
 
 	static void updateCursor();
+
+	// index positions for bottom and top visible message
+	unsigned static int topVecPos;
+	unsigned static int botVecPos;
 };

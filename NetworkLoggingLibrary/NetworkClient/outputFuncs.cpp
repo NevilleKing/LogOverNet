@@ -7,6 +7,8 @@ PANEL* LogOutput::panels[4];
 int LogOutput::currentLogPosition = 0;
 std::vector<LogMessage> LogOutput::messages;
 unsigned int LogOutput::visibleMessages = 0;
+unsigned int LogOutput::topVecPos = 0;
+unsigned int LogOutput::botVecPos = 0;
 
 void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity)
 {
@@ -253,7 +255,9 @@ void LogOutput::filterLogMessages(LOG_SEVERITY severity)
 			{
 				firstRun = false;
 				getyx(wins[1], y, x);
+				botVecPos = currentPos;
 			}
+			topVecPos = currentPos;
 			--startPos;
 		}
 		--currentPos;
