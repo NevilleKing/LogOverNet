@@ -46,11 +46,12 @@ void FileIO::readLogFromFile()
 		while (true)
 		{
 			i = line.find(';', offset);
+			std::string substr = (curLoop == 3) ? line.substr(offset) : line.substr(offset, i - offset);
 			if (strings.size() < 4)
-				strings.push_back(line.substr(offset, i - offset));
+				strings.push_back(substr);
 			else if (curLoop == 3)
-				strings[3].append(line.substr(offset, i - offset));
-			if (i == std::string::npos) break;
+				strings[3].append(substr);
+			if (i == std::string::npos || curLoop == 3) break;
 			offset = i + 1;
 			++curLoop;
 		}
