@@ -62,7 +62,6 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 		}
 
 		++visibleMessages;
-		botVecPos = messages.size() - 1;
 
 		if (visibleMessages == 1)
 			topVecPos = botVecPos;
@@ -77,6 +76,8 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 				if (messages[topVecPos].visible)
 					break;
 			}
+			// update bottom position
+			botVecPos = messages.size() - 1;
 		}
 		// check if we need to output
 		if (visibleMessages < (LINES - 4) || (currentLogPosition + (LINES - 3)) == (visibleMessages + 1))
