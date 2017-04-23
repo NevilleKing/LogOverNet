@@ -11,6 +11,7 @@ ServerHandler* server;
 int main(int argc, char *argv[])
 {
 	char* port = DEFAULT_PORT;
+	std::string filename = "log.txt";
 
 	if (argc > 2)
 	{
@@ -18,9 +19,20 @@ int main(int argc, char *argv[])
 		{
 			port = argv[2];
 		}
+		for (int i = 1; i < argc; ++i)
+		{
+			if (std::strcmp(argv[i], "--port") == 0)
+			{
+				port = argv[i + 1];
+			}
+			else if (std::strcmp(argv[i], "--file") == 0)
+			{
+				filename = argv[i + 1];
+			}
+		}
 	}
 
-	server = new ServerHandler(port, "FILEPATH");
+	server = new ServerHandler(port, filename);
 
 	ServerLoop();
 
