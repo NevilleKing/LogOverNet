@@ -283,9 +283,10 @@ void LogOutput::filterLogMessages(LOG_SEVERITY severity)
 	update_panels();
 	doupdate();
 
-	// update cursor position
+	// update cursor position & visibility
 	if (!firstRun)
 		wmove(wins[1], y, x);
+	updateCursor();
 }
 
 void LogOutput::redrawLogMessages(int offset)
@@ -340,7 +341,7 @@ void LogOutput::updateCursor()
 {
 	if (!variableView)
 	{
-		if (messages.size() < (LINES - 4) || (currentLogPosition + (LINES - 4)) == messages.size())
+		if (visibleMessages < (LINES - 4) || (currentLogPosition + (LINES - 3)) == (visibleMessages + 1))
 			curs_set(1);
 		else
 			curs_set(0);
