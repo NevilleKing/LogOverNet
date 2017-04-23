@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	server = new ServerHandler(port);
+	server = new ServerHandler(port, "FILEPATH");
 
 	ServerLoop();
 

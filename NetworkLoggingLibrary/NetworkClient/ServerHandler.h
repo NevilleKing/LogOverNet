@@ -7,11 +7,12 @@
 #include "ServerNetwork.h"
 #include <vector>
 #include "Packet.h"
+#include "FileIO.h"
 
 class ServerHandler
 {
 public:
-	ServerHandler(char* port);
+	ServerHandler(char* port, std::string logFilename);
 	~ServerHandler();
 
 	// update function
@@ -32,6 +33,9 @@ private:
 
 	// data buffer
 	char network_data[MAX_PACKET_SIZE];
+
+	// Log file to store and load log data from
+	FileIO* myFile;
 
 	// to store sessions to be removed
 	std::vector<unsigned int> _sessionsToBeRemoved;

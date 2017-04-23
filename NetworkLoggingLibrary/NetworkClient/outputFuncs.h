@@ -15,6 +15,7 @@
 
 #include "Severity.h"
 #include "LogMessage.h"
+#include "FileIO.h"
 
 class LogOutput
 {
@@ -29,6 +30,8 @@ public:
 
 	// output a message in the format:
 	// [ip] [dd/mm/yy HH:MM:SS] : message
+	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity, std::string timestamp);
+	// same as above but creates timestamp automatically
 	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity);
 
 	static void initCurses();
@@ -51,6 +54,9 @@ public:
 
 	// filter log message based on severity level
 	static void filterLogMessages(LOG_SEVERITY severity);
+
+	// set file for output
+	static void setOutputLogFile(FileIO& file);
 private:
 	// the variable window is showing
 	static bool variableView;
@@ -78,4 +84,7 @@ private:
 	// index positions for bottom and top visible message
 	unsigned static int topVecPos;
 	unsigned static int botVecPos;
+
+	// log file
+	static FileIO* outFile;
 };

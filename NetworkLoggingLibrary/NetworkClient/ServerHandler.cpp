@@ -3,7 +3,7 @@
 // need to define static variables in cpp too
 unsigned int ServerHandler::client_id;
 
-ServerHandler::ServerHandler(char* port)
+ServerHandler::ServerHandler(char* port, std::string logFilename)
 {
 	// init the client id
 	client_id = 0;
@@ -15,6 +15,11 @@ ServerHandler::ServerHandler(char* port)
 	_basicInstr = "UP/DOWN: Move log output | TAB: View/hide variable view | ";
 	updateInstructionsWindow();
 
+	// load from log file if possible
+	myFile = new FileIO(logFilename);
+	myFile->readLogFromFile();
+	LogOutput::setOutputLogFile(*myFile);
+
 	// setup the server network object to listen
 	network = new ServerNetwork(port);
 }
@@ -22,6 +27,8 @@ ServerHandler::ServerHandler(char* port)
 ServerHandler::~ServerHandler()
 {
 	LogOutput::stopCurses();
+	if (myFile != nullptr)
+		delete myFile;
 }
 
 bool ServerHandler::update()

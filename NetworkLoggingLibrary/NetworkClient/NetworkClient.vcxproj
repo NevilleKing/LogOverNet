@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkServices.cpp" />
     <ClCompile Include="outputFuncs.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="ServerNetwork.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileIO.h" />
     <ClInclude Include="LogMessage.h" />
     <ClInclude Include="NetworkServices.h" />
     <ClInclude Include="outputFuncs.h" />
