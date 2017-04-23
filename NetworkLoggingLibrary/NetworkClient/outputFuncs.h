@@ -30,7 +30,7 @@ public:
 
 	// output a message in the format:
 	// [ip] [dd/mm/yy HH:MM:SS] : message
-	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity, std::string timestamp);
+	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity, std::string timestamp, bool load = false);
 	// same as above but creates timestamp automatically
 	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity);
 

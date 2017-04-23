@@ -8,7 +8,7 @@ FileIO::FileIO(std::string filename) : _filename(filename)
 		newFile = true;
 
 	// open file for reading/writing
-	myFile.open(filename, ios::in | ios::out | ios::app);
+	myFile.open(filename, ios::in | ios::app);
 }
 
 FileIO::~FileIO()
@@ -22,22 +22,45 @@ void FileIO::readLogFromFile()
 	if (newFile)
 		return;
 
+	loadedMessages.clear();
+
 	// loop through the lines of the file
 	std::string line;
+	std::vector<std::string> strings;
+
 	while (std::getline(myFile, line))
 	{
+		// multi-line check
+		if (line.at(1) != ';')
+		{
+			// print previous line
+			if (strings.size() == 4)
+				loadedMessages.push_back({ strings[0], strings[1], (LOG_SEVERITY)std::stoi(strings[2]), strings[3] });
+			strings.clear();
+		}
+
 		// ';' is the delimiter, loop through getting the next one
 		int offset = 0;
-		std::vector<std::string> strings;
 		size_t i;
+		int curLoop = 0;
 		while (true)
 		{
 			i = line.find(';', offset);
-			strings.push_back(line.substr(offset, i - offset));
+			if (strings.size() < 4)
+				strings.push_back(line.substr(offset, i - offset));
+			else if (curLoop == 3)
+				strings[3].append(line.substr(offset, i - offset));
 			if (i == std::string::npos) break;
 			offset = i + 1;
+			++curLoop;
 		}
 	}
+
+	if (strings.size() == 4)
+		loadedMessages.push_back({ strings[0], strings[1], (LOG_SEVERITY)std::stoi(strings[2]), strings[3] });
+
+	// clear error state
+	myFile.clear();
 }
 
 void FileIO::saveLogToFile(std::string ip, std::string timestamp, LOG_SEVERITY sev, std::string log_message)

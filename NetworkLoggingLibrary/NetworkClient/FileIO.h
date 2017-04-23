@@ -5,6 +5,7 @@
 #include <fstream>
 #include "Severity.h"
 #include <vector>
+#include "LogMessage.h"
 
 using std::ios;
 
@@ -21,6 +22,8 @@ public:
 	void saveLogToFile(std::string ip, std::string timestamp, LOG_SEVERITY sev, std::string log_message);
 
 	bool isOpen();
+
+	std::vector<LogMessage> loadedMessages;
 
 private:
 	std::string _filename;

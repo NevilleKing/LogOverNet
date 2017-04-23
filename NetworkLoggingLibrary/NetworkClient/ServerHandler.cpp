@@ -19,6 +19,8 @@ ServerHandler::ServerHandler(char* port, std::string logFilename)
 	myFile = new FileIO(logFilename);
 	myFile->readLogFromFile();
 	LogOutput::setOutputLogFile(*myFile);
+	for (auto&& msg : myFile->loadedMessages)
+		LogOutput::outputLogMessage(msg.ip, msg.message, msg.severity, msg.timestamp, true);
 
 	// setup the server network object to listen
 	network = new ServerNetwork(port);

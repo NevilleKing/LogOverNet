@@ -11,7 +11,7 @@ unsigned int LogOutput::topVecPos = 0;
 unsigned int LogOutput::botVecPos = 0;
 FileIO* LogOutput::outFile = nullptr;
 
-void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity, std::string timestamp)
+void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity, std::string timestamp, bool load)
 {
 	// create output stringstream
 	std::stringstream output;
@@ -94,7 +94,7 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 		}
 
 		// output to log file
-		if (outFile != nullptr)
+		if (outFile != nullptr && !load)
 		{
 			if (currentLine == 0)
 				outFile->saveLogToFile(ip, timestamp, severity, curMsg);
