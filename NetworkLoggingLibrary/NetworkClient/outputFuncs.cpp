@@ -55,6 +55,15 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 		// add to vector
 		messages.push_back({ severity, output.str() });
 
+		// output to log file
+		if (outFile != nullptr && !load)
+		{
+			if (currentLine == 0)
+				outFile->saveLogToFile(ip, timestamp, severity, curMsg);
+			else
+				outFile->saveLogToFile("", "", severity, curMsg);
+		}
+
 		// we only need to output if we are currently filtered to this severity level
 		if (currentSeverity != -1 && severity != currentSeverity)
 		{
@@ -93,15 +102,6 @@ void LogOutput::outputLogMessage(std::string ip, std::string message, LOG_SEVERI
 			// refresh the window to display on screen
 			update_panels();
 			doupdate();
-		}
-
-		// output to log file
-		if (outFile != nullptr && !load)
-		{
-			if (currentLine == 0)
-				outFile->saveLogToFile(ip, timestamp, severity, curMsg);
-			else
-				outFile->saveLogToFile("", "", severity, curMsg);
 		}
 
 		++currentLine;

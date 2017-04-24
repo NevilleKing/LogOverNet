@@ -30,6 +30,9 @@ public:
 	// check if the file is open
 	bool isOpen();
 
+	// flush the file if needed (write)
+	void flushFile();
+
 	// the most recent batch of messages loaded
 	std::vector<LogMessage> loadedMessages;
 
@@ -40,4 +43,6 @@ private:
 	bool newFile = false;
 
 	std::fstream myFile;
+
+	bool needsFlush = false;
 };

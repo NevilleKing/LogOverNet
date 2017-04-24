@@ -84,6 +84,10 @@ void ServerHandler::receiveFromClients()
 	// go through all clients
 	std::map<unsigned int, ConnectedSocket>::iterator iter;
 
+	// flush file at end if nothing is received
+	// this batches all writes so that we make sure we receive all data
+	bool connectionRec = false;
+
 	for (iter = network->sessions.begin(); iter != network->sessions.end(); iter++)
 	{
 		memset(&network_data[0], 1, sizeof(network_data));
@@ -98,6 +102,8 @@ void ServerHandler::receiveFromClients()
 			// nothing received
 			continue;
 		}
+
+		connectionRec = true;
 
 		// loop through the network data as there may be multiple log messages to output
 		int lastPos = 0;
@@ -149,6 +155,9 @@ void ServerHandler::receiveFromClients()
 		}
 		_sessionsToBeRemoved.clear();
 	}
+
+	if (!connectionRec)
+		myFile->flushFile();
 }
 
 void ServerHandler::updateVariable(std::string memAddr, std::string value)

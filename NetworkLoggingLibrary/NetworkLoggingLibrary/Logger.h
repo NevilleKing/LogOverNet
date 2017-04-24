@@ -50,7 +50,7 @@ namespace logovernet
 		template<> Logger& operator<<(const LON_EOL str)
 		{
 			sendMessage(oStream.str(), LON_INFO);
-			oStream.clear();
+			oStream.str("");
 			return *this;
 		}
 
