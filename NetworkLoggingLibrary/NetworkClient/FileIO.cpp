@@ -70,7 +70,7 @@ void FileIO::saveLogToFile(std::string ip, std::string timestamp, LOG_SEVERITY s
 		return;
 
 	myFile << ip << ";" << timestamp << ";" << (int)sev << ";" << log_message << "\n";
-	myFile.flush();
+	myFile.flush(); // flush - just in case there is a crash - makes sure it writes straight away
 }
 
 bool FileIO::isOpen()

@@ -107,26 +107,30 @@ void ServerHandler::receiveFromClients()
 		int currentLoop = 0;
 		do
 		{
+			// messages are split into 2 parts, split by '\0'
+			// first is severity followed by the memory address
+			// second is the message / variable value
 			if ((currentLoop % 2) == 0)
 			{
 				++lastPos;
-				if (currentLoop > 0 && retrPacket.memory_address.length() == 0)
+				if (currentLoop > 0 && retrPacket.memory_address.length() == 0) // is a normal message
 					LogOutput::outputLogMessage(iter->second.peer_ip, retrPacket.data, retrPacket.severity);
-				else if (currentLoop > 0)
+				else if (currentLoop > 0) // is a variable value
 					updateVariable(retrPacket.memory_address, retrPacket.data);
 			}
 
+			// find next '\0'
 			int pos = (int)(pos_char - network_data) + 1;
 			if (pos > (sizeof(network_data) / sizeof(*network_data))) break;
 			
 			std::string outputString(&network_data[lastPos], 0, pos - lastPos);
 
-			if ((currentLoop % 2) == 0)
+			if ((currentLoop % 2) == 0) // sev & mem addr
 			{
 				retrPacket.severity = static_cast<LOG_SEVERITY>(network_data[lastPos - 1]);
 				retrPacket.memory_address = outputString;
 			}
-			else
+			else // value
 				retrPacket.data = outputString;
 
 			lastPos = pos;

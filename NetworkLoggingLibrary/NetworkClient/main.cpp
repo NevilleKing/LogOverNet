@@ -10,15 +10,13 @@ ServerHandler* server;
 
 int main(int argc, char *argv[])
 {
+	// defaults
 	char* port = DEFAULT_PORT;
 	std::string filename = "log.txt";
 
+	// command line arguments
 	if (argc > 2)
 	{
-		if (std::strcmp(argv[1], "--port") == 0)
-		{
-			port = argv[2];
-		}
 		for (int i = 1; i < argc; ++i)
 		{
 			if (std::strcmp(argv[i], "--port") == 0)
@@ -32,6 +30,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	// init server
 	server = new ServerHandler(port, filename);
 
 	ServerLoop();

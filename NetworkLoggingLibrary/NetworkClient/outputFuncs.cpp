@@ -1,5 +1,6 @@
 #include "outputFuncs.h"
 
+// Static variables
 LOG_SEVERITY LogOutput::currentSeverity = (LOG_SEVERITY)-1;
 bool LogOutput::variableView = false;
 WINDOW* LogOutput::wins[4];
@@ -341,6 +342,8 @@ void LogOutput::setOutputLogFile(FileIO & file)
 
 void LogOutput::redrawLogMessages(int offset)
 {
+	// loop backwards at the top/bottom to find the
+	// next visible message to display
 	if (offset < 0)
 	{
 		offset = -offset;
@@ -392,7 +395,7 @@ void LogOutput::updateCursor()
 	if (!variableView)
 	{
 		if (visibleMessages < (LINES - 4) || (currentLogPosition + (LINES - 3)) == (visibleMessages + 1))
-			curs_set(1);
+			curs_set(1); // if user is at bottom of window, display
 		else
 			curs_set(0);
 	}
