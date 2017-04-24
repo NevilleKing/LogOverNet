@@ -1,5 +1,5 @@
 // ClientNetwork.h
-// Client network class
+// Client network class for communicating over the network
 
 #pragma once
 #include <WinSock2.h>
@@ -10,7 +10,6 @@
 #include <vector>
 
 // Defines
-// TODO: Replace these later on
 // Buffer size
 #define DEFAULT_BUFLEN 512
 // port to connect sockets through

@@ -34,6 +34,7 @@ public:
 	// same as above but creates timestamp automatically
 	static void outputLogMessage(std::string ip, std::string message, LOG_SEVERITY severity);
 
+	// Curses functions
 	static void initCurses();
 	static void stopCurses();
 
@@ -77,8 +78,10 @@ private:
 	// visible messages
 	static unsigned int visibleMessages;
 
+	// redraw messages at top/bottom based on offset
 	static void redrawLogMessages(int offset);
 
+	// display / hide cursor (based on position of log window)
 	static void updateCursor();
 
 	// index positions for bottom and top visible message

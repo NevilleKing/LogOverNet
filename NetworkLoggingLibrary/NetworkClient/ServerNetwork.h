@@ -62,5 +62,6 @@ public:
 	std::map<unsigned int, ConnectedSocket> sessions;
 
 private:
+	// get client ip address
 	std::string getIPfromSocket(SOCKET s);
 };

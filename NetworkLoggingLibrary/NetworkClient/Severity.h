@@ -1,3 +1,6 @@
+// Severity.h
+// Holds severity level info
+
 #pragma once
 
 #include <string>
@@ -9,6 +12,7 @@ enum LOG_SEVERITY {
 	LON_ERROR
 };
 
+// for outputting severity level
 const std::string LOG_STRINGS[4]
 {
 	"DEBUG",

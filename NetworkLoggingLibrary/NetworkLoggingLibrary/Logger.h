@@ -1,5 +1,5 @@
 // Logger.h
-// Defines functions and macros to be accessed from the code to be debugged
+// Defines functions to be accessed from the code to be debugged
 
 #pragma once
 
@@ -46,6 +46,7 @@ namespace logovernet
 			return *this;
 		}
 
+		// handles end of << operator - i.e. send log message
 		template<> Logger& operator<<(const LON_EOL str)
 		{
 			sendMessage(oStream.str(), LON_INFO);
@@ -70,5 +71,6 @@ namespace logovernet
 		std::stringstream oStream;
 	};
 
+	// holds global logger for auto logging
 	static Logger* GLOBAL_LOGGER = nullptr;
 }

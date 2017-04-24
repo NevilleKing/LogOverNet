@@ -169,6 +169,8 @@ namespace logovernet
 		}
 	};
 
+	// Basic type for ints, bools, etc
+	// Acts as the base for the above class, as inheriting from basic types is not supported
 	template <typename L>
 	class LonBasicType
 	{
@@ -178,7 +180,7 @@ namespace logovernet
 		LonBasicType() {};
 		LonBasicType(L val) : _val(val) {};
 
-		// casting
+		// casting - allows variable to be used normally in dev code
 		operator L() const { return _val; }
 
 		// operator overloads

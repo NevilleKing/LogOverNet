@@ -1,5 +1,5 @@
 // Severity.h
-// Main header file to include in an application to send log messages over the network
+// Holds simple severity info
 
 #pragma once
 

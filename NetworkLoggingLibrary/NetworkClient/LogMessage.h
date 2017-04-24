@@ -1,3 +1,6 @@
+// LogMessage.h
+// Class for passing around and storing log messages
+
 #pragma once
 
 #include "Severity.h"
