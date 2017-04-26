@@ -3,6 +3,12 @@
 // need to define static variables in cpp too
 unsigned int ServerHandler::client_id;
 
+#include <chrono>
+
+
+typedef std::chrono::high_resolution_clock Clock;
+typedef std::chrono::high_resolution_clock::time_point TimePoint;
+
 ServerHandler::ServerHandler(char* port, std::string logFilename)
 {
 	// init the client id
@@ -102,6 +108,9 @@ void ServerHandler::receiveFromClients()
 			// nothing received
 			continue;
 		}
+
+		auto test = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now().time_since_epoch()).count();
+		LogOutput::outputLogMessage("", std::to_string(test), LON_INFO);
 
 		connectionRec = true;
 
