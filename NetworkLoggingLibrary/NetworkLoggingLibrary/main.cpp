@@ -8,31 +8,32 @@ using namespace logovernet;
 int main(int argc, char *argv[])
 {
 	// setup logger with ip address
-	Logger logger = Logger("127.0.0.1", DEFAULT_PORT);
+	Logger logger = Logger("127.0.0.1", "7218");
+
+	logger.sendMessage("info message", LOG_SEVERITY::LON_INFO);
+	logger.sendMessage(std::string("error!"), LOG_SEVERITY::LON_ERROR);
+	logger.sendMessage(true, LOG_SEVERITY::LON_WARNING);
+
+	system("pause");
 
 	GLOBAL_LOGGER = &logger;
-	int i = 0;
-	while (true)
+	for (lon_int i = 0; i < 5; ++i)
 	{
-		logger.sendMessage("ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz+ABCDEFGHIJKLMNOPQRSTUVWXYZ+abcdefghijklmnopqrstuvwxyz", LOG_SEVERITY::LON_INFO);
-		//logger.sendMessage("test" + std::to_string(++i), LON_INFO);
-		//logger.sendMessage("test" + std::to_string(i), LON_ERROR);
+		std::cout << "i is " << i << std::endl;
 		system("pause");
 	}
 
-	/* CAUSES ERROR
-	for (int i = 0; i < 10; ++i)
-	{
-		logger.sendMessage("error" + std::to_string(i), LOG_SEVERITY::LON_ERROR);
-		logger.sendMessage("debug" + std::to_string(i), LOG_SEVERITY::LON_DEBUG);
-	}
-	*/
-
-	/*lon_bool b = false;
-	
-	b = !b;*/
+	LonType<std::string> myString("myMessage");
+	std::cout << myString << std::endl;
 
 	system("pause");
+
+	for (int i = 0; i < 10; i++)
+	{
+		logger << "ABCDEFGHIJKLMNOPQRSTUVWXYZ" << "abcdefghijklmnopqrstuvwxyz" << 123456789 
+			   << "ABCDEFGHIJKLMNOPQRSTUVWXYZ" << "abcdefghijklmnopqrstuvwxyz" << 123456789 
+			   << "ABCDEFGHIJKLMNOPQRSTUVWXYZ" << "abcdefghijklmnopqrstuvwxyz" << 123456789 << LON_EOL();
+	}
 
 	return 0;
 }
