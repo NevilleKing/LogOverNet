@@ -2,8 +2,8 @@
 
 ![logovernet](https://user-images.githubusercontent.com/9254173/28210169-fce938b6-688d-11e7-9cb1-2aba7ce2b997.png)
 
-A logging library for C++ which sends logging messages to a seperate machine over the network. Only available for Windows, the library
-was built from the ground up using the Windows Socket API (Winsock) for the 3rd year dissertation project for Games Computing
+A logging library for C++ which sends logging messages to a separate machine over the network. Only available for Windows, the library
+was built from the ground up using the Windows Socket API (Winsock) for a 3rd year dissertation project for Games Computing
 at the University of Lincoln.
 
 By conducting a literature review, the following features were gathered based on current logging practices:
@@ -25,14 +25,14 @@ line parameters:
 
     NetworkClient.exe --port 1234 --file myfile.log
 
-Make sure the ports match. By using `--file` you can have multiple log files. These can then be reloaded at a later time.
+Make sure the port number is the same as in the code. By using `--file` you can have multiple log files and these can then be reloaded at a later time using the same command.
 
 ## Dependencies
 
-The logging library doesn't require any extenernal dependencies as all functionality is provided by Winsock. The library should work
+The logging library doesn't require any external dependencies as all functionality is provided by Winsock. The library should work
 with C++11 and higher.
 
-The server required pdcurses.dll which provides the console UI.
+The server requires pdcurses.dll which provides the console UI.
 
 ## Logging Functions
 
@@ -65,10 +65,10 @@ for (lon_int i = 0; i < 5; ++i)
     std::cout << "i is " << i << std::endl;
 }
 ```
-You can log automatically when the value of a variable is changed. First set the global logging instance and replace the type with a
+You can log automatically when the value of a variable is changed. First set the global logging instance. Then replace the type with a 
 logging variant (in this case replace int with lon_int).
 
 ```cpp
 LonType<std::string> myString("myMessage");
 ```
-If the type is not available, you can use the LonType template class.
+If the type is not available, you can use the LonType template class with any base class.
