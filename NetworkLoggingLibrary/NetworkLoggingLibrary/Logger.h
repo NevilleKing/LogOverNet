@@ -73,4 +73,10 @@ namespace logovernet
 
 	// holds global logger for auto logging
 	static Logger* GLOBAL_LOGGER = nullptr;
+
+	// function to set the global logger
+	static void setGlobalLogger(Logger& logger)
+	{
+		GLOBAL_LOGGER = &logger;
+	}
 }

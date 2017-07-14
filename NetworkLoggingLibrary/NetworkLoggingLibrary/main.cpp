@@ -8,7 +8,7 @@ using namespace logovernet;
 int main(int argc, char *argv[])
 {
 	// setup logger with ip address
-	Logger logger = Logger("127.0.0.1", "7218");
+	Logger logger = Logger("127.0.0.1", DEFAULT_PORT);
 
 	logger.sendMessage("info message", LOG_SEVERITY::LON_INFO);
 	logger.sendMessage(std::string("error!"), LOG_SEVERITY::LON_ERROR);
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
 	system("pause");
 
-	GLOBAL_LOGGER = &logger;
+	setGlobalLogger(logger);
 	for (lon_int i = 0; i < 5; ++i)
 	{
 		std::cout << "i is " << i << std::endl;
